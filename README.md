@@ -1,5 +1,13 @@
 <h1>Age Decision JS SDK</h1>
 
+<p>
+  <img src="https://img.shields.io/github/actions/workflow/status/credona/age-decision-js/ci.yml?branch=main&label=CI" alt="CI">
+  <img src="https://img.shields.io/github/actions/workflow/status/credona/age-decision-js/codeql.yml?branch=main&label=CodeQL" alt="CodeQL">
+  <img src="https://img.shields.io/github/v/release/credona/age-decision-js" alt="Release">
+  <img src="https://img.shields.io/npm/v/@credona/age-decision" alt="npm">
+  <img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="License">
+</p>
+
 Age Decision JS SDK is a lightweight TypeScript and JavaScript client for interacting with the Age Decision API.
 
 It provides a typed client to call health, readiness, and verification endpoints from Node.js or modern browser environments.
@@ -22,9 +30,24 @@ Application
 
 <hr>
 
+<h2>Related Repositories</h2>
+
+- [Age Decision API](https://github.com/credona/age-decision-api)
+- [Age Decision Core](https://github.com/credona/age-decision-core)
+- [Age Decision AntiSpoof](https://github.com/credona/age-decision-antispoof)
+
+<hr>
+
 <h2>Status</h2>
 
-Current version: <b>v1.0.0</b>
+Current version: <b>v1.0.1</b>
+
+Validated status:
+
+```text
+8 unit tests passed
+3 integration tests passed
+```
 
 <hr>
 
@@ -32,6 +55,7 @@ Current version: <b>v1.0.0</b>
 
 - TypeScript support
 - ESM and CommonJS builds
+- TypeScript declaration output
 - Browser-compatible fetch-based client
 - Health check endpoint
 - Readiness check endpoint
@@ -41,6 +65,8 @@ Current version: <b>v1.0.0</b>
 - Timeout handling with AbortController
 - Configurable retry mechanism
 - HTTP error handling
+- npm package distribution
+- GitHub Actions CI, CodeQL, release and npm publishing workflows
 
 <hr>
 
@@ -49,8 +75,6 @@ Current version: <b>v1.0.0</b>
 ```bash
 npm install @credona/age-decision
 ```
-
-The package can also be installed with Yarn or pnpm.
 
 ```bash
 yarn add @credona/age-decision
@@ -81,8 +105,6 @@ The SDK does not impose any API URL.
 
 The `baseUrl` must point to your own Age Decision API instance.
 
-<hr>
-
 <h3>Health check</h3>
 
 ```ts
@@ -91,8 +113,6 @@ const health = await client.health();
 console.log(health);
 ```
 
-<hr>
-
 <h3>Readiness check</h3>
 
 ```ts
@@ -100,8 +120,6 @@ const ready = await client.ready();
 
 console.log(ready);
 ```
-
-<hr>
 
 <h3>Verify age</h3>
 
@@ -114,8 +132,6 @@ const result = await client.verify({
 
 console.log(result.decision);
 ```
-
-<hr>
 
 <h3>Verify age with explicit identifiers</h3>
 
@@ -234,7 +250,7 @@ They do not represent the production deployment configuration of Credona hosted 
 
 - `Dockerfile.dev` builds the SDK development environment
 - `docker-compose.dev.yml` runs the SDK development container
-- `docker-compose.integration.yml` runs integration tests against the full Age Decision stack
+- `docker-compose.integration.yml` runs integration tests against the published Age Decision Docker images
 
 <h3>Start development container</h3>
 
@@ -246,12 +262,6 @@ docker compose -f docker-compose.dev.yml up -d --build
 
 ```bash
 docker exec -it age-decision-js sh
-```
-
-<h3>Install dependencies</h3>
-
-```bash
-npm install
 ```
 
 <h3>Run unit tests</h3>
@@ -276,18 +286,18 @@ npm run pack:check
 
 <h2>Integration Tests</h2>
 
-Integration tests run the full stack with Docker Compose:
+Integration tests run the SDK against the published Docker images:
 
 ```text
-age-decision-js
-age-decision-api
-age-decision-core
-age-decision-antispoof
+ghcr.io/credona/age-decision-api:latest
+ghcr.io/credona/age-decision-core:latest
+ghcr.io/credona/age-decision-antispoof:latest
 ```
 
 <h3>Run integration tests</h3>
 
 ```bash
+docker compose -f docker-compose.integration.yml pull
 docker compose -f docker-compose.integration.yml up --build --abort-on-container-exit --exit-code-from age-decision-js
 ```
 
@@ -314,7 +324,11 @@ dist/index.d.cts
 
 <h2>Publishing</h2>
 
-The package is intended to be published to npm.
+The package is published to npm as:
+
+```text
+@credona/age-decision
+```
 
 Before publishing, run:
 
@@ -324,11 +338,27 @@ npm run build
 npm run pack:check
 ```
 
-Publish:
+The release workflow publishes the package automatically when a version tag is pushed.
 
 ```bash
-npm publish --access public
+git tag v1.0.1
+git push origin v1.0.1
 ```
+
+<hr>
+
+<h2>Automation</h2>
+
+This repository includes:
+
+- GitHub Actions CI
+- automated tests on pull requests
+- automated package build checks
+- automated npm publishing
+- automated GitHub release creation
+- tag-based release notes
+- CodeQL scanning
+- Dependabot updates
 
 <hr>
 
@@ -346,6 +376,8 @@ It does not:
 - perform local anti-spoofing
 - store images
 - generate Zero-Knowledge proofs
+- replace certified legal identity checks
+- perform face recognition
 
 <hr>
 
@@ -357,4 +389,6 @@ See `ROADMAP.md`.
 
 <h2>License</h2>
 
-Apache License 2.0
+This repository is released under the Apache License 2.0.
+
+See the `LICENSE` file for details.
