@@ -1,18 +1,12 @@
 services:
   age-decision-core:
-    build:
-      context: ../age-decision-core
-      dockerfile: Dockerfile.dev
+    image: ghcr.io/credona/age-decision-core:latest
 
   age-decision-antispoof:
-    build:
-      context: ../age-decision-antispoof
-      dockerfile: Dockerfile.dev
+    image: ghcr.io/credona/age-decision-antispoof:latest
 
   age-decision-api:
-    build:
-      context: ../age-decision-api
-      dockerfile: Dockerfile.dev
+    image: ghcr.io/credona/age-decision-api:latest
     depends_on:
       - age-decision-core
       - age-decision-antispoof
