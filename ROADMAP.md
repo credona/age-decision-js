@@ -1,10 +1,32 @@
 <h1>Age Decision JS SDK Roadmap</h1>
 
-This roadmap tracks the technical evolution of the Age Decision JavaScript and TypeScript SDK.
+This document tracks the public roadmap of Age Decision JS SDK.
 
-<hr>
+<h2>Versioning Strategy</h2>
 
-<h2>v1.0.0 - Credona Initial Public Release</h2>
+Age Decision JS SDK follows semantic versioning:
+
+```text
+vX.Y.Z
+```
+
+Meaning:
+
+- `X` changes for major architectural or trust model changes
+- `Y` changes for feature releases
+- `Z` changes for patches, automation, documentation, CI, distribution, and maintenance
+
+Examples:
+
+```text
+v1.0.1 -> automation and distribution patch
+v1.1.0 -> SDK usability and typing improvements
+v2.0.0 -> trust and proof client milestone
+```
+
+<h2>Roadmap</h2>
+
+<h3>v1.0.0 - Credona Initial Public Release</h3>
 
 - [x] Migrate repository to Credona
 - [x] Provide clean open source snapshot
@@ -27,24 +49,29 @@ This roadmap tracks the technical evolution of the Age Decision JavaScript and T
 - [x] Add npm-ready package configuration
 - [x] Add README documentation
 
-<hr>
+<h3>v1.0.1 - Automation and Distribution</h3>
 
-<h2>v1.0.1 - Automation and Distribution</h2>
+- [x] Add GitHub Actions CI
+- [x] Add automated tests on pull requests
+- [x] Add automated build checks
+- [x] Add npm package publishing workflow
+- [x] Add automated release workflow
+- [x] Add automated tag-based release notes
+- [x] Add CodeQL scanning
+- [x] Add Dependabot configuration
+- [x] Add README badges
+- [x] Add image-based integration stack
+- [x] Use published GHCR images for API, Core and AntiSpoof integration tests
+- [x] Align roadmap structure with core, antispoof and api repositories
+- [x] Document automation workflows
+- [x] Document npm publishing flow
 
-- [ ] Add GitHub Actions CI
-- [ ] Add automated tests on pull requests
-- [ ] Add automated build checks
-- [ ] Add npm package publishing workflow
-- [ ] Add automated release workflow
-- [ ] Add automated tag-based release notes
-- [ ] Add CodeQL scanning
-- [ ] Add Dependabot configuration
-
-<hr>
-
-<h2>v1.x - SDK Improvements</h2>
+<h3>v1.x - SDK Improvements</h3>
 
 - [ ] Add richer TypeScript response types
+- [ ] Add typed health response contract
+- [ ] Add typed readiness response contract
+- [ ] Add typed verification response contract
 - [ ] Add browser file-to-base64 helper
 - [ ] Add Node.js file-to-base64 helper
 - [ ] Add custom fetch adapter
@@ -53,22 +80,28 @@ This roadmap tracks the technical evolution of the Age Decision JavaScript and T
 - [ ] Add SDK examples for Node.js
 - [ ] Add SDK examples for browser usage
 - [ ] Add SDK examples for Nuxt and Next.js
+- [ ] Add integration tests for request_id propagation
+- [ ] Add integration tests for correlation_id propagation
+- [ ] Add OpenAPI-driven type generation research
 
-<hr>
-
-<h2>v2 - Trust and Proof APIs</h2>
+<h3>v2 - Trust and Proof APIs</h3>
 
 - [ ] Add signed verification result support
 - [ ] Add reusable Credona score envelope
 - [ ] Add proof verification client
 - [ ] Add Zero-Knowledge proof client contracts
 - [ ] Add tokenized cred reuse API support
+- [ ] Add verifier-side SDK helpers
+- [ ] Add proof-friendly response parsing
+- [ ] Add external verification example
 
-<hr>
-
-<h2>Future</h2>
+<h3>v3 - Developer Experience Layer</h3>
 
 - [ ] Add React helper hooks
 - [ ] Add Vue composables
 - [ ] Add server-side integration examples
 - [ ] Add hosted API examples for api.credona.dev
+- [ ] Add framework-specific examples
+- [ ] Add browser upload example
+- [ ] Add Node.js CLI example
+- [ ] Add production integration guide

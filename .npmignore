@@ -9,3 +9,8 @@ tsconfig.json
 node_modules
 coverage
 *.log
+docker-compose.dev.yml
+docker-compose.integration.yml
+Dockerfile.dev
+.github
+ROADMAP.md
