@@ -77,17 +77,31 @@ v2.0.0 -> trust and proof client milestone
 - [x] Validate package dry run
 - [x] Validate integration tests
 
+<h3>v1.1.0 - SDK API Contract Alignment</h3>
+
+- [x] Add `cred_global_score` to verification response types
+- [x] Keep `cred_score` as legacy compatibility alias
+- [x] Add typed `cred_decision_score` support
+- [x] Add typed `cred_antispoof_score` support
+- [x] Add typed privacy metadata response
+- [x] Add typed ZK-ready metadata response
+- [x] Send request identifiers through headers
+- [x] Add `age_margin` request support
+- [x] Add `confidence_threshold` request support
+- [x] Add request payload contract tests
+- [x] Add request header propagation tests
+- [x] Add score compatibility tests
+- [x] Update README response examples
+
 <h3>v1.x - SDK Improvements</h3>
 
-- [ ] Add richer TypeScript response types
 - [ ] Add typed health response contract
 - [ ] Add typed readiness response contract
-- [ ] Add typed verification response contract
+- [ ] Add typed error response contracts
 - [ ] Add browser file-to-base64 helper
 - [ ] Add Node.js file-to-base64 helper
 - [ ] Add custom fetch adapter
 - [ ] Add retry strategy configuration
-- [ ] Add typed error response contracts
 - [ ] Add SDK examples for Node.js
 - [ ] Add SDK examples for browser usage
 - [ ] Add SDK examples for Nuxt and Next.js

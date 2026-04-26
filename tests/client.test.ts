@@ -72,6 +72,121 @@ describe("AgeDecisionClient", () => {
     expect(fetch).toHaveBeenCalledOnce();
   });
 
+  it("should propagate request and correlation ids to headers", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        request_id: "req-123",
+        correlation_id: "corr-456",
+        decision: "allow",
+        cred_global_score: 1,
+        cred_score: 1,
+        age_check: {
+          status: "passed",
+          decision: "allow",
+          cred_decision_score: 1,
+        },
+        liveness_check: {
+          status: "passed",
+          decision: "allow",
+          cred_antispoof_score: 1,
+        },
+        privacy: {},
+        zk_proof: {},
+      }),
+    });
+
+    vi.stubGlobal("fetch", fetchMock);
+
+    const client = new AgeDecisionClient({
+      baseUrl: MOCK_API_BASE_URL,
+    });
+
+    await client.verify({
+      imageBase64: "test",
+      requestId: "req-123",
+      correlationId: "corr-456",
+    });
+
+    const [, init] = fetchMock.mock.calls[0];
+
+    expect(init.headers).toMatchObject({
+      "X-Request-ID": "req-123",
+      "X-Correlation-ID": "corr-456",
+    });
+  });
+
+  it("should send correct request payload", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({}),
+    });
+
+    vi.stubGlobal("fetch", fetchMock);
+
+    const client = new AgeDecisionClient({
+      baseUrl: MOCK_API_BASE_URL,
+    });
+
+    await client.verify({
+      imageBase64: "abc",
+      ageThreshold: 18,
+      ageMargin: 2,
+      confidenceThreshold: 0.9,
+      country: "FR",
+    });
+
+    const [, init] = fetchMock.mock.calls[0];
+    const body = JSON.parse(init.body as string);
+
+    expect(body).toEqual({
+      image_base64: "abc",
+      age_threshold: 18,
+      age_margin: 2,
+      confidence_threshold: 0.9,
+      country: "FR",
+    });
+  });
+
+  it("should support cred_score and cred_global_score", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          request_id: "r",
+          correlation_id: "r",
+          decision: "allow",
+          cred_global_score: 0.9,
+          cred_score: 0.9,
+          age_check: {
+            status: "passed",
+            decision: "allow",
+            cred_decision_score: 0.9,
+          },
+          liveness_check: {
+            status: "passed",
+            decision: "allow",
+            cred_antispoof_score: 0.9,
+          },
+          privacy: {},
+          zk_proof: {},
+        }),
+      }),
+    );
+
+    const client = new AgeDecisionClient({
+      baseUrl: MOCK_API_BASE_URL,
+    });
+
+    const result = await client.verify({
+      imageBase64: "test",
+    });
+
+    expect(result.cred_global_score).toBe(0.9);
+    expect(result.cred_score).toBe(0.9);
+  });
+
   it("should throw HttpError on non successful response", async () => {
     vi.stubGlobal(
       "fetch",

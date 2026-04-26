@@ -34,18 +34,23 @@ export class AgeDecisionClient {
   }
 
   verify(input: VerifyRequest): Promise<VerifyResponse> {
+    const requestId = input.requestId ?? generateId("req");
+    const correlationId = input.correlationId ?? requestId;
+
     const body = {
       image_base64: input.imageBase64,
       age_threshold: input.ageThreshold,
+      age_margin: input.ageMargin,
+      confidence_threshold: input.confidenceThreshold,
       country: input.country,
-      request_id: input.requestId ?? generateId("req"),
-      correlation_id: input.correlationId ?? generateId("corr"),
     };
 
     return this.request<VerifyResponse>("/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "X-Request-ID": requestId,
+        "X-Correlation-ID": correlationId,
       },
       body: JSON.stringify(body),
     });

@@ -30,23 +30,16 @@ Application
 
 <hr>
 
-<h2>Related Repositories</h2>
-
-- [Age Decision API](https://github.com/credona/age-decision-api)
-- [Age Decision Core](https://github.com/credona/age-decision-core)
-- [Age Decision AntiSpoof](https://github.com/credona/age-decision-antispoof)
-
-<hr>
-
 <h2>Status</h2>
 
-Current version: <b>v1.0.2</b>
+Current version: <b>1.1.0</b>
 
 Validated status:
 
 ```text
-8 unit tests passed
-3 integration tests passed
+11 unit tests passed
+Package build passed
+Package dry run passed
 ```
 
 <hr>
@@ -60,6 +53,12 @@ Validated status:
 - Health check endpoint
 - Readiness check endpoint
 - Age verification endpoint
+- Typed verification response contract
+- `cred_global_score` support
+- Legacy-compatible `cred_score` support
+- `cred_decision_score` support
+- `cred_antispoof_score` support
+- Request tracing through headers
 - Automatic request_id generation
 - Automatic correlation_id generation
 - Timeout handling with AbortController
@@ -101,26 +100,6 @@ const client = new AgeDecisionClient({
 });
 ```
 
-The SDK does not impose any API URL.
-
-The `baseUrl` must point to your own Age Decision API instance.
-
-<h3>Health check</h3>
-
-```ts
-const health = await client.health();
-
-console.log(health);
-```
-
-<h3>Readiness check</h3>
-
-```ts
-const ready = await client.ready();
-
-console.log(ready);
-```
-
 <h3>Verify age</h3>
 
 ```ts
@@ -131,6 +110,7 @@ const result = await client.verify({
 });
 
 console.log(result.decision);
+console.log(result.cred_global_score);
 ```
 
 <h3>Verify age with explicit identifiers</h3>
@@ -146,7 +126,6 @@ const result = await client.verify({
 
 console.log(result.request_id);
 console.log(result.correlation_id);
-console.log(result.decision);
 ```
 
 <hr>
@@ -158,6 +137,7 @@ console.log(result.decision);
   "request_id": "req-123",
   "correlation_id": "corr-123",
   "decision": "allow",
+  "cred_global_score": 0.94,
   "cred_score": 0.94,
   "age_check": {
     "status": "passed",
@@ -244,74 +224,26 @@ try {
 
 <h2>Development</h2>
 
-This repository includes Docker files for local SDK development and integration testing only.
-
-They do not represent the production deployment configuration of Credona hosted services.
-
-- `Dockerfile.dev` builds the SDK development environment
-- `docker-compose.dev.yml` runs the SDK development container
-- `docker-compose.integration.yml` runs integration tests against the published Age Decision Docker images
-
-<h3>Start development container</h3>
-
 ```bash
 docker compose -f docker-compose.dev.yml up -d --build
-```
-
-<h3>Enter container</h3>
-
-```bash
-docker exec -it age-decision-js sh
-```
-
-<h3>Run unit tests</h3>
-
-```bash
-npm run test
-```
-
-<h3>Build package</h3>
-
-```bash
-npm run build
-```
-
-<h3>Check npm package content</h3>
-
-```bash
-npm run pack:check
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run test
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run build
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run pack:check
 ```
 
 <hr>
 
 <h2>Integration Tests</h2>
 
-Integration tests run the SDK against the published Docker images:
-
-```text
-ghcr.io/credona/age-decision-api:latest
-ghcr.io/credona/age-decision-core:latest
-ghcr.io/credona/age-decision-antispoof:latest
-```
-
-<h3>Run integration tests</h3>
-
 ```bash
 docker compose -f docker-compose.integration.yml pull
 docker compose -f docker-compose.integration.yml up --build --abort-on-container-exit --exit-code-from age-decision-js
-```
-
-<h3>Clean integration stack</h3>
-
-```bash
 docker compose -f docker-compose.integration.yml down -v --remove-orphans
 ```
 
 <hr>
 
 <h2>Package Build Output</h2>
-
-The build generates ESM, CommonJS, and TypeScript declaration files.
 
 ```text
 dist/index.js
@@ -337,28 +269,6 @@ npm run test
 npm run build
 npm run pack:check
 ```
-
-The release workflow publishes the package automatically when a version tag is pushed.
-
-```bash
-git tag vX.Y.Z
-git push origin vX.Y.Z
-```
-
-<hr>
-
-<h2>Automation</h2>
-
-This repository includes:
-
-- GitHub Actions CI
-- automated tests on pull requests
-- automated package build checks
-- automated npm publishing
-- automated GitHub release creation
-- tag-based release notes
-- CodeQL scanning
-- Dependabot updates
 
 <hr>
 
