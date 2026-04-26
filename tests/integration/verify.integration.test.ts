@@ -21,11 +21,16 @@ describe("Integration - AgeDecision API", () => {
     expect(result.status).toBeDefined();
   });
 
-  it("should reach real verify endpoint", async () => {
+  it("should reach real verify endpoint and receive stable error response", async () => {
     await expect(
       client.verify({
         imageBase64: "fake-base64",
+        requestId: "test-request-001",
+        correlationId: "test-correlation-001",
       }),
-    ).rejects.toBeInstanceOf(HttpError);
+    ).rejects.toMatchObject({
+      status: 400,
+      body: expect.stringContaining("invalid_base64_image"),
+    } satisfies Partial<HttpError>);
   });
 });
