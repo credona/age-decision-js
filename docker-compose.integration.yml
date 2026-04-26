@@ -1,0 +1,30 @@
+services:
+  age-decision-core:
+    build:
+      context: ../age-decision-core
+      dockerfile: Dockerfile.dev
+
+  age-decision-antispoof:
+    build:
+      context: ../age-decision-antispoof
+      dockerfile: Dockerfile.dev
+
+  age-decision-api:
+    build:
+      context: ../age-decision-api
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - age-decision-core
+      - age-decision-antispoof
+    environment:
+      AGE_DECISION_CORE_URL: http://age-decision-core:8000
+      AGE_DECISION_ANTISPOOF_URL: http://age-decision-antispoof:8001
+
+  age-decision-js:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - age-decision-api
+    working_dir: /app
+    command: sh -c "npm run test:integration"

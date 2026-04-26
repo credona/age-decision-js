@@ -1,0 +1,57 @@
+{
+  "name": "@credona/age-decision",
+  "version": "1.0.0",
+  "description": "JavaScript and TypeScript SDK for Age Decision API.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsup src/index.ts --format esm,cjs --dts --sourcemap",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run tests/integration",
+    "pack:check": "npm pack --dry-run"
+  },
+  "keywords": [
+    "age-verification",
+    "age-estimation",
+    "anti-spoofing",
+    "liveness",
+    "computer-vision",
+    "privacy",
+    "typescript",
+    "javascript",
+    "sdk",
+    "credona"
+  ],
+  "author": "Credona",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/credona/age-decision-js#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/credona/age-decision-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/credona/age-decision-js/issues"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

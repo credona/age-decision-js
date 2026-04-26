@@ -1,0 +1,11 @@
+src
+tests
+Dockerfile
+docker-compose.yml
+.dockerignore
+.gitignore
+vitest.config.ts
+tsconfig.json
+node_modules
+coverage
+*.log

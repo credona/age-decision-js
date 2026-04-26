@@ -1,0 +1,14 @@
+services:
+  age-decision-js:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: age-decision-js
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    working_dir: /app
+    command: tail -f /dev/null
+
+volumes:
+  node_modules:
