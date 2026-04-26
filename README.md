@@ -40,7 +40,7 @@ Application
 
 <h2>Status</h2>
 
-Current version: <b>v1.0.1</b>
+Current version: <b>v1.0.2</b>
 
 Validated status:
 
@@ -341,8 +341,8 @@ npm run pack:check
 The release workflow publishes the package automatically when a version tag is pushed.
 
 ```bash
-git tag v1.0.1
-git push origin v1.0.1
+git tag vX.Y.Z
+git push origin vX.Y.Z
 ```
 
 <hr>

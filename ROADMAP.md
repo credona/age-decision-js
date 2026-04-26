@@ -66,6 +66,17 @@ v2.0.0 -> trust and proof client milestone
 - [x] Document automation workflows
 - [x] Document npm publishing flow
 
+<h3>v1.0.2 - Dependency and CI Maintenance</h3>
+
+- [x] Update GitHub Actions
+- [x] Update TypeScript
+- [x] Update Vitest
+- [x] Update Vite / esbuild dependency chain
+- [x] Validate test suite
+- [x] Validate package build
+- [x] Validate package dry run
+- [x] Validate integration tests
+
 <h3>v1.x - SDK Improvements</h3>
 
 - [ ] Add richer TypeScript response types
