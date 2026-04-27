@@ -40,9 +40,7 @@ export class AgeDecisionClient {
     const body = {
       image_base64: input.imageBase64,
       age_threshold: input.ageThreshold,
-      age_margin: input.ageMargin,
-      confidence_threshold: input.confidenceThreshold,
-      country: input.country,
+      majority_country: input.majorityCountry,
     };
 
     return this.request<VerifyResponse>("/verify", {
