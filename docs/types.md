@@ -23,11 +23,22 @@ interface ClientOptions {
 interface VerifyRequest {
   imageBase64: string;
   ageThreshold?: number;
-  ageMargin?: number;
-  confidenceThreshold?: number;
-  country?: string;
+  majorityCountry?: string;
   requestId?: string;
   correlationId?: string;
+}
+```
+
+<hr>
+
+<h2>ThresholdPolicy</h2>
+
+```ts
+interface ThresholdPolicy {
+  type: "minimum_age";
+  value: number;
+  source: "explicit" | "majority_country" | "default";
+  majority_country?: string | null;
 }
 ```
 
@@ -41,7 +52,6 @@ interface VerifyResponse {
   correlation_id: string;
   decision: "allow" | "deny" | string;
   cred_global_score: number;
-  cred_score: number;
   age_check: AgeCheckResponse;
   liveness_check: LivenessCheckResponse;
   privacy: PrivacyMetadata;
@@ -59,9 +69,7 @@ interface AgeCheckResponse {
   status: "passed" | "failed" | "unknown" | string;
   decision: "allow" | "deny" | string;
   reason?: string | null;
-  estimated_age?: number | null;
-  confidence?: number | null;
-  is_adult?: boolean | null;
+  threshold: ThresholdPolicy;
   cred_decision_score: number;
 }
 ```
@@ -75,7 +83,6 @@ interface LivenessCheckResponse {
   status: "passed" | "failed" | "unknown" | string;
   decision: "allow" | "deny" | string;
   reason?: string | null;
-  confidence?: number | null;
   is_real?: boolean | null;
   spoof_detected?: boolean | null;
   cred_antispoof_score: number;
@@ -125,8 +132,20 @@ Score produced by Age Decision AntiSpoof.
 
 Global API score computed from downstream scores.
 
-<h3>cred_score</h3>
+It is the only global score exposed by SDK v2.
 
-Temporary compatibility alias for `cred_global_score`.
+<hr>
 
-New integrations should read `cred_global_score`.
+<h2>Removed from v2 public contract</h2>
+
+The following fields are no longer part of the public SDK contract:
+
+- `cred_score`
+- `estimated_age`
+- `confidence`
+- `is_adult`
+- `ageMargin`
+- `confidenceThreshold`
+- `country`
+
+Use `majorityCountry` instead of `country`.

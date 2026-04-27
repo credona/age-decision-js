@@ -60,7 +60,7 @@ const client = new AgeDecisionClient({
 const result = await client.verify({
   imageBase64: "base64-image",
   ageThreshold: 18,
-  country: "FR"
+  majorityCountry: "FR"
 });
 
 console.log(result.decision);

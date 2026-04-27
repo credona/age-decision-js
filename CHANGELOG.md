@@ -6,7 +6,7 @@ Global project direction is tracked in the central Age Decision repository.
 
 <hr>
 
-<h2>Unreleased</h2>
+<h2>2.0.0</h2>
 
 - Clarified SDK scope as a pure HTTP client.
 - Explicitly documented that the SDK does not perform local inference.
@@ -14,6 +14,16 @@ Global project direction is tracked in the central Age Decision repository.
 - Clarified that model lifecycle is handled by downstream services (Core and AntiSpoof).
 - Updated integration test documentation to reflect runtime model download via Docker volumes.
 - Improved README clarity for integration testing and architecture boundaries.
+- Introduced SDK support for the privacy-first Age Decision API v2 contract.
+- Replaced `country` request field with `majorityCountry`.
+- Removed `ageMargin` and `confidenceThreshold` request fields.
+- Removed legacy `cred_score` from `VerifyResponse`.
+- Removed `estimated_age`, raw age confidence, and `is_adult` from `AgeCheckResponse`.
+- Removed raw liveness confidence from `LivenessCheckResponse`.
+- Added `ThresholdPolicy` to `AgeCheckResponse`.
+- Kept `cred_global_score` as the only global Credona score.
+- Updated unit tests for the v2 request and response contract.
+- Updated README and SDK documentation.
 
 <hr>
 

@@ -55,14 +55,13 @@ console.log(ready.status);
 const result = await client.verify({
   imageBase64: "base64-image",
   ageThreshold: 18,
-  ageMargin: 2,
-  confidenceThreshold: 0.8,
-  country: "FR"
+  majorityCountry: "FR"
 });
 
 console.log(result.decision);
 console.log(result.cred_global_score);
 console.log(result.age_check.cred_decision_score);
+console.log(result.age_check.threshold);
 console.log(result.liveness_check.cred_antispoof_score);
 ```
 
@@ -74,7 +73,7 @@ console.log(result.liveness_check.cred_antispoof_score);
 const result = await client.verify({
   imageBase64: "base64-image",
   ageThreshold: 18,
-  country: "FR",
+  majorityCountry: "FR",
   requestId: "req-001",
   correlationId: "corr-001"
 });
@@ -89,6 +88,20 @@ The SDK sends these values through headers:
 X-Request-ID
 X-Correlation-ID
 ```
+
+<hr>
+
+<h2>Public privacy contract</h2>
+
+The SDK v2 contract does not expose:
+
+- estimated age
+- raw age confidence
+- `is_adult`
+- raw liveness confidence
+- spoof score
+- downstream model details
+- legacy `cred_score` alias
 
 <hr>
 

@@ -45,13 +45,38 @@ describe("AgeDecisionClient", () => {
           request_id: "req-001",
           correlation_id: "corr-001",
           decision: "allow",
+          cred_global_score: 0.8,
           age_check: {
             status: "passed",
             decision: "allow",
+            threshold: {
+              type: "minimum_age",
+              value: 18,
+              source: "majority_country",
+              majority_country: "FR",
+            },
+            cred_decision_score: 0.8,
           },
           liveness_check: {
             status: "passed",
             decision: "allow",
+            is_real: true,
+            spoof_detected: false,
+            cred_antispoof_score: 0.99,
+          },
+          privacy: {
+            image_stored: false,
+            biometric_template_stored: false,
+            raw_image_logged: false,
+            downstream_raw_response_exposed: false,
+            retention_policy: "not_stored_by_api_gateway",
+          },
+          zk_proof: {
+            zk_ready: true,
+            proof_type: "interactive_zero_knowledge_ready",
+            proof_status: "not_generated",
+            statement:
+              "The API is ready to prove a threshold decision without exposing the raw image, estimated age, or raw model scores.",
           },
           reason: null,
         }),
@@ -65,7 +90,7 @@ describe("AgeDecisionClient", () => {
     const result = await client.verify({
       imageBase64: "fake-base64",
       ageThreshold: 18,
-      country: "FR",
+      majorityCountry: "FR",
     });
 
     expect(result.decision).toBe("allow");
@@ -80,19 +105,38 @@ describe("AgeDecisionClient", () => {
         correlation_id: "corr-456",
         decision: "allow",
         cred_global_score: 1,
-        cred_score: 1,
         age_check: {
           status: "passed",
           decision: "allow",
+          threshold: {
+            type: "minimum_age",
+            value: 18,
+            source: "default",
+            majority_country: null,
+          },
           cred_decision_score: 1,
         },
         liveness_check: {
           status: "passed",
           decision: "allow",
+          is_real: true,
+          spoof_detected: false,
           cred_antispoof_score: 1,
         },
-        privacy: {},
-        zk_proof: {},
+        privacy: {
+          image_stored: false,
+          biometric_template_stored: false,
+          raw_image_logged: false,
+          downstream_raw_response_exposed: false,
+          retention_policy: "not_stored_by_api_gateway",
+        },
+        zk_proof: {
+          zk_ready: true,
+          proof_type: "interactive_zero_knowledge_ready",
+          proof_status: "not_generated",
+          statement:
+            "The API is ready to prove a threshold decision without exposing the raw image, estimated age, or raw model scores.",
+        },
       }),
     });
 
@@ -116,7 +160,7 @@ describe("AgeDecisionClient", () => {
     });
   });
 
-  it("should send correct request payload", async () => {
+  it("should send correct v2 request payload", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({}),
@@ -131,9 +175,7 @@ describe("AgeDecisionClient", () => {
     await client.verify({
       imageBase64: "abc",
       ageThreshold: 18,
-      ageMargin: 2,
-      confidenceThreshold: 0.9,
-      country: "FR",
+      majorityCountry: "FR",
     });
 
     const [, init] = fetchMock.mock.calls[0];
@@ -142,13 +184,11 @@ describe("AgeDecisionClient", () => {
     expect(body).toEqual({
       image_base64: "abc",
       age_threshold: 18,
-      age_margin: 2,
-      confidence_threshold: 0.9,
-      country: "FR",
+      majority_country: "FR",
     });
   });
 
-  it("should support cred_score and cred_global_score", async () => {
+  it("should expose only cred_global_score as global score", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue({
@@ -158,19 +198,38 @@ describe("AgeDecisionClient", () => {
           correlation_id: "r",
           decision: "allow",
           cred_global_score: 0.9,
-          cred_score: 0.9,
           age_check: {
             status: "passed",
             decision: "allow",
+            threshold: {
+              type: "minimum_age",
+              value: 18,
+              source: "default",
+              majority_country: null,
+            },
             cred_decision_score: 0.9,
           },
           liveness_check: {
             status: "passed",
             decision: "allow",
+            is_real: true,
+            spoof_detected: false,
             cred_antispoof_score: 0.9,
           },
-          privacy: {},
-          zk_proof: {},
+          privacy: {
+            image_stored: false,
+            biometric_template_stored: false,
+            raw_image_logged: false,
+            downstream_raw_response_exposed: false,
+            retention_policy: "not_stored_by_api_gateway",
+          },
+          zk_proof: {
+            zk_ready: true,
+            proof_type: "interactive_zero_knowledge_ready",
+            proof_status: "not_generated",
+            statement:
+              "The API is ready to prove a threshold decision without exposing the raw image, estimated age, or raw model scores.",
+          },
         }),
       }),
     );
@@ -184,7 +243,7 @@ describe("AgeDecisionClient", () => {
     });
 
     expect(result.cred_global_score).toBe(0.9);
-    expect(result.cred_score).toBe(0.9);
+    expect("cred_score" in result).toBe(false);
   });
 
   it("should throw HttpError on non successful response", async () => {

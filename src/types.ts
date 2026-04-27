@@ -8,9 +8,7 @@ export interface ClientOptions {
 export interface VerifyRequest {
   imageBase64: string;
   ageThreshold?: number;
-  ageMargin?: number;
-  confidenceThreshold?: number;
-  country?: string;
+  majorityCountry?: string;
   requestId?: string;
   correlationId?: string;
 }
@@ -43,13 +41,18 @@ export interface ErrorResponse {
   error: ErrorDetail;
 }
 
+export interface ThresholdPolicy {
+  type: "minimum_age";
+  value: number;
+  source: "explicit" | "majority_country" | "default";
+  majority_country?: string | null;
+}
+
 export interface AgeCheckResponse {
   status: "passed" | "failed" | "unknown" | string;
   decision: "allow" | "deny" | string;
   reason?: string | null;
-  estimated_age?: number | null;
-  confidence?: number | null;
-  is_adult?: boolean | null;
+  threshold: ThresholdPolicy;
   cred_decision_score: number;
 }
 
@@ -57,7 +60,6 @@ export interface LivenessCheckResponse {
   status: "passed" | "failed" | "unknown" | string;
   decision: "allow" | "deny" | string;
   reason?: string | null;
-  confidence?: number | null;
   is_real?: boolean | null;
   spoof_detected?: boolean | null;
   cred_antispoof_score: number;
@@ -81,20 +83,11 @@ export interface ZkProofMetadataResponse {
 export interface VerifyResponse {
   request_id: string;
   correlation_id: string;
-  decision: "allow" | "deny" | "review" | "unknown" | string;
-
+  decision: "allow" | "deny" | string;
   cred_global_score: number;
-
-  /**
-   * Temporary compatibility alias for cred_global_score.
-   */
-  cred_score: number;
-
   age_check: AgeCheckResponse;
   liveness_check: LivenessCheckResponse;
-
   privacy: PrivacyMetadataResponse;
   zk_proof: ZkProofMetadataResponse;
-
   reason?: string | null;
 }
