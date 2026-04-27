@@ -6,6 +6,17 @@ Global project direction is tracked in the central Age Decision repository.
 
 <hr>
 
+<h2>Unreleased</h2>
+
+- Clarified SDK scope as a pure HTTP client.
+- Explicitly documented that the SDK does not perform local inference.
+- Explicitly documented that the SDK does not load, download, store, or redistribute model binaries.
+- Clarified that model lifecycle is handled by downstream services (Core and AntiSpoof).
+- Updated integration test documentation to reflect runtime model download via Docker volumes.
+- Improved README clarity for integration testing and architecture boundaries.
+
+<hr>
+
 <h2>1.1.1</h2>
 
 - Documentation structure simplified.

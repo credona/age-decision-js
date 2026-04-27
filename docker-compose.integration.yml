@@ -1,9 +1,33 @@
 services:
+  core-models:
+    image: ghcr.io/credona/age-decision-core:latest
+    working_dir: /app
+    command: python scripts/download_models.py
+    volumes:
+      - core-models:/app/models
+
+  antispoof-models:
+    image: ghcr.io/credona/age-decision-antispoof:latest
+    working_dir: /app
+    command: python scripts/download_models.py
+    volumes:
+      - antispoof-models:/app/antispoof/models
+
   age-decision-core:
     image: ghcr.io/credona/age-decision-core:latest
+    depends_on:
+      core-models:
+        condition: service_completed_successfully
+    volumes:
+      - core-models:/app/models
 
   age-decision-antispoof:
     image: ghcr.io/credona/age-decision-antispoof:latest
+    depends_on:
+      antispoof-models:
+        condition: service_completed_successfully
+    volumes:
+      - antispoof-models:/app/antispoof/models
 
   age-decision-api:
     image: ghcr.io/credona/age-decision-api:latest
@@ -22,3 +46,7 @@ services:
       - age-decision-api
     working_dir: /app
     command: sh -c "npm run test:integration"
+
+volumes:
+  core-models:
+  antispoof-models:
