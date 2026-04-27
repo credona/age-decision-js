@@ -15,6 +15,8 @@ It provides a typed fetch-based client for health, readiness and verification en
 
 It does not perform age estimation or anti-spoofing locally.
 
+It does not load, download, store, or redistribute machine learning model files.
+
 <hr>
 
 <h2>Documentation</h2>
@@ -82,10 +84,35 @@ It does not:
 
 - perform local age estimation
 - perform local anti-spoofing
+- load model files
+- download model files
+- redistribute model files
 - store images
 - generate Zero-Knowledge proofs
 - replace certified legal identity checks
 - perform face recognition
+
+<hr>
+
+<h2>Integration tests</h2>
+
+Integration tests start the published Docker images for:
+
+- Age Decision Core
+- Age Decision AntiSpoof
+- Age Decision API
+
+Model files are downloaded at test runtime into Docker volumes for the downstream services.
+
+The SDK does not download, load, or manage model files.
+
+Run integration tests:
+
+```bash
+docker compose -f docker-compose.integration.yml down -v --remove-orphans
+docker compose -f docker-compose.integration.yml pull
+docker compose -f docker-compose.integration.yml up --build --abort-on-container-exit
+```
 
 <hr>
 
