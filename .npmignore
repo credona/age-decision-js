@@ -13,4 +13,5 @@ docker-compose.dev.yml
 docker-compose.integration.yml
 Dockerfile.dev
 .github
-ROADMAP.md
+*.md
+!README.md
