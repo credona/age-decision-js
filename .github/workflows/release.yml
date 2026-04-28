@@ -29,22 +29,8 @@ jobs:
       - name: Check release metadata
         run: npm run check:release
 
-      - name: Check project metadata
-        run: npm run check:metadata
-
-      - name: Check generated documentation
-        run: |
-          npm run docs:generate
-          git diff --exit-code README.md docs/usage.md docs/types.md docs/compatibility.md
-
-      - name: Build package
-        run: npm run build
-
-      - name: Run unit tests
-        run: npm run test
-
-      - name: Check npm package content
-        run: npm run pack:check
+      - name: Run CI-equivalent checks
+        run: npm run check:all
 
       - name: Create release with generated notes
         uses: softprops/action-gh-release@v3

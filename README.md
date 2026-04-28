@@ -86,7 +86,7 @@ Project metadata is declared in `project.json`.
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "contract_version": "2.0",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
@@ -105,7 +105,7 @@ Compatibility metadata is declared in `compatibility.json`.
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "contract_version": "2.0",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
@@ -190,6 +190,18 @@ Update generated documentation blocks:
 
 ```bash
 docker compose -f docker-compose.dev.yml exec age-decision-js npm run docs:generate
+```
+
+Run the complete local validation command:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:local
+```
+
+Prepare a release locally:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run release:prepare
 ```
 
 <hr>

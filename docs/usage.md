@@ -137,7 +137,7 @@ Generated view:
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "contract_version": "2.0",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
@@ -162,7 +162,7 @@ Generated view:
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "contract_version": "2.0",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
@@ -245,6 +245,19 @@ docker compose -f docker-compose.dev.yml exec age-decision-js npm run pack:check
 ```
 
 <hr>
+
+Run the full local validation:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:local
+```
+
+Prepare a release locally:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run release:prepare
+```
+<h>
 
 <h2>Integration tests</h2>
 

@@ -6,6 +6,19 @@ Global project direction is tracked in the central Age Decision repository.
 
 <hr>
 
+<h2>2.2.0</h2>
+
+<ul>
+  <li>Added one-command local validation.</li>
+  <li>Added one-command release preparation.</li>
+  <li>Reorganized developer, CI, metadata, documentation, and release scripts.</li>
+  <li>Added automatic release tagging from project metadata after main CI success.</li>
+  <li>Aligned GitHub release and npm publish workflows with tag-triggered automation.</li>
+  <li>Updated integration stack to use Age Decision v2.2.0 downstream images.</li>
+</ul>
+
+<hr>
+
 <h2>2.1.0</h2>
 
 - Added centralized SDK metadata through `project.json`.
