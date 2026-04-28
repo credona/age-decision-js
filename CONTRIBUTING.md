@@ -35,6 +35,35 @@ docker compose -f docker-compose.dev.yml exec age-decision-js npm run pack:check
 
 <hr>
 
+<h2>Metadata checks</h2>
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:metadata
+```
+
+<hr>
+
+<h2>Update generated documentation</h2>
+
+Some documentation blocks are generated from `project.json` and `compatibility.json`.
+
+Run:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run docs:generate
+```
+
+Generated blocks are delimited by comments such as:
+
+```text
+<!-- BEGIN:PROJECT_METADATA -->
+<!-- END:PROJECT_METADATA -->
+```
+
+Do not edit generated blocks manually.
+
+<hr>
+
 <h2>Integration tests</h2>
 
 ```bash
@@ -75,6 +104,33 @@ Do not commit:
 
 <hr>
 
+<h2>Project metadata policy</h2>
+
+Project identity metadata must be edited in:
+
+```text
+project.json
+```
+
+Compatibility metadata must be edited in:
+
+```text
+compatibility.json
+```
+
+The package version in `package.json` must match `project.json`.
+
+Release tags must match the version declared in `project.json`.
+
+Example:
+
+```text
+project.json version: 2.1.0
+Git tag: v2.1.0
+```
+
+<hr>
+
 <h2>Documentation</h2>
 
 Use:
@@ -82,4 +138,5 @@ Use:
 - README.md for the repository entry point
 - docs/usage.md for SDK usage
 - docs/types.md for public TypeScript contracts
+- docs/compatibility.md for compatibility and contract stability rules
 - CHANGELOG.md for release history

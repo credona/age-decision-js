@@ -3,6 +3,13 @@ import { AgeDecisionClient } from "../src/client";
 import { HttpError, TimeoutError } from "../src/errors";
 import { MOCK_API_BASE_URL } from "./constants";
 
+const HEALTH_RESPONSE = {
+  status: "ok",
+  service: "age-decision-api",
+  version: "2.1.0",
+  contract_version: "2.0",
+};
+
 afterEach(() => {
   vi.useRealTimers();
   vi.restoreAllMocks();
@@ -14,10 +21,7 @@ describe("AgeDecisionClient", () => {
       "fetch",
       vi.fn().mockResolvedValue({
         ok: true,
-        json: async () => ({
-          status: "ok",
-          service: "age-decision-api",
-        }),
+        json: async () => HEALTH_RESPONSE,
       }),
     );
 
@@ -27,9 +31,41 @@ describe("AgeDecisionClient", () => {
 
     const result = await client.health();
 
-    expect(result.status).toBe("ok");
+    expect(result).toEqual(HEALTH_RESPONSE);
     expect(fetch).toHaveBeenCalledWith(
       `${MOCK_API_BASE_URL}/health`,
+      expect.objectContaining({
+        method: "GET",
+      }),
+    );
+  });
+
+  it("should call version endpoint", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          service_name: "age-decision-api",
+          app_name: "Age Decision API",
+          version: "2.1.0",
+          contract_version: "2.0",
+          repository: "https://github.com/credona/age-decision-api",
+          image: "ghcr.io/credona/age-decision-api",
+        }),
+      }),
+    );
+
+    const client = new AgeDecisionClient({
+      baseUrl: MOCK_API_BASE_URL,
+    });
+
+    const result = await client.version();
+
+    expect(result.version).toBe("2.1.0");
+    expect(result.contract_version).toBe("2.0");
+    expect(fetch).toHaveBeenCalledWith(
+      `${MOCK_API_BASE_URL}/version`,
       expect.objectContaining({
         method: "GET",
       }),
@@ -279,10 +315,7 @@ describe("AgeDecisionClient", () => {
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: async () => ({
-          status: "ok",
-          service: "age-decision-api",
-        }),
+        json: async () => HEALTH_RESPONSE,
       });
 
     vi.stubGlobal("fetch", fetchMock);
