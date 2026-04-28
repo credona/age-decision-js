@@ -48,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - quality
+    timeout-minutes: 12
 
     steps:
       - name: Checkout repository
@@ -56,11 +57,17 @@ jobs:
       - name: Pull downstream images
         run: docker compose -f docker-compose.integration.yml pull
 
-      - name: Run integration tests
+      - name: Download downstream model files
+        run: |
+          docker compose -f docker-compose.integration.yml up \
+            core-models \
+            antispoof-models
+
+      - name: Run integration services and tests
         run: |
           docker compose -f docker-compose.integration.yml up --build \
-            --abort-on-container-exit \
-            --exit-code-from age-decision-js
+            --exit-code-from age-decision-js \
+            age-decision-js
 
       - name: Cleanup integration stack
         if: always()
