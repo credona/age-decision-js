@@ -6,6 +6,32 @@ Global project direction is tracked in the central Age Decision repository.
 
 <hr>
 
+<h2>2.1.0</h2>
+
+- Added centralized SDK metadata through `project.json`.
+- Added package compatibility metadata through `compatibility.json`.
+- Aligned `package.json` version with `project.json`.
+- Added SDK compatibility metadata for Age Decision API v2.x.
+- Added typed `/version` client support through `client.version()`.
+- Added `ProjectVersionResponse` TypeScript contract.
+- Updated `HealthResponse` and `ReadyResponse` types with `version` and `contract_version`.
+- Added metadata validation through `scripts/check-project-metadata.mjs`.
+- Added compatibility validation through `scripts/check-compatibility-metadata.mjs`.
+- Added release metadata validation through `scripts/check-release-metadata.mjs`.
+- Added generated documentation update scripts for README, usage, types and compatibility documentation.
+- Added generated documentation synchronization checks in CI.
+- Added Docker integration job using the v2.1.0 downstream image matrix.
+- Replaced `latest` integration images with explicit v2.1.0 service image tags.
+- Added package metadata files to npm package output.
+- Updated Docker ignore and npm ignore rules.
+- Added EditorConfig-based whitespace normalization.
+- Added shared VS Code workspace settings and extension recommendations.
+- Updated SDK tests for the `/version` endpoint and v2.1 metadata responses.
+- Updated package dry-run validation for metadata inclusion.
+- Updated CI workflow to validate metadata, generated documentation, build, unit tests, package content and Docker integration.
+
+<hr>
+
 <h2>2.0.0</h2>
 
 - Clarified SDK scope as a pure HTTP client.

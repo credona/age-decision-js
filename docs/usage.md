@@ -35,6 +35,20 @@ The SDK does not impose an API URL.
 const health = await client.health();
 
 console.log(health.status);
+console.log(health.version);
+console.log(health.contract_version);
+```
+
+<hr>
+
+<h2>Version</h2>
+
+```ts
+const version = await client.version();
+
+console.log(version.service_name);
+console.log(version.version);
+console.log(version.contract_version);
 ```
 
 <hr>
@@ -45,6 +59,8 @@ console.log(health.status);
 const ready = await client.ready();
 
 console.log(ready.status);
+console.log(ready.version);
+console.log(ready.contract_version);
 ```
 
 <hr>
@@ -105,6 +121,71 @@ The SDK v2 contract does not expose:
 
 <hr>
 
+<h2>Project metadata</h2>
+
+Project metadata is declared in:
+
+```text
+project.json
+```
+
+Generated view:
+
+<!-- BEGIN:PROJECT_METADATA -->
+```json
+{
+  "service_name": "age-decision-js",
+  "package_name": "@credona/age-decision",
+  "app_name": "Age Decision JS SDK",
+  "version": "2.1.0",
+  "contract_version": "2.0",
+  "repository": "https://github.com/credona/age-decision-js",
+  "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
+}
+```
+<!-- END:PROJECT_METADATA -->
+
+<hr>
+
+<h2>Compatibility metadata</h2>
+
+Compatibility metadata is declared in:
+
+```text
+compatibility.json
+```
+
+Generated view:
+
+<!-- BEGIN:COMPATIBILITY_METADATA -->
+```json
+{
+  "service": "age-decision-js",
+  "package": "@credona/age-decision",
+  "version": "2.1.0",
+  "contract_version": "2.0",
+  "compatible_with": {
+    "age-decision-api": ">=2.0.0 <3.0.0"
+  },
+  "public_contract": {
+    "client": "AgeDecisionClient",
+    "metadata_endpoint": "/version",
+    "decision_values": [
+      "allow",
+      "deny"
+    ],
+    "score_field": "cred_global_score",
+    "estimated_age_exposed": false,
+    "raw_age_confidence_exposed": false,
+    "raw_liveness_confidence_exposed": false,
+    "legacy_cred_score_exposed": false
+  }
+}
+```
+<!-- END:COMPATIBILITY_METADATA -->
+
+<hr>
+
 <h2>Error handling</h2>
 
 ```ts
@@ -159,6 +240,7 @@ try {
 docker compose -f docker-compose.dev.yml up -d --build
 docker compose -f docker-compose.dev.yml exec age-decision-js npm run test
 docker compose -f docker-compose.dev.yml exec age-decision-js npm run build
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:metadata
 docker compose -f docker-compose.dev.yml exec age-decision-js npm run pack:check
 ```
 
@@ -183,4 +265,8 @@ dist/index.js
 dist/index.cjs
 dist/index.d.ts
 dist/index.d.cts
+project.json
+compatibility.json
+README.md
+LICENSE
 ```

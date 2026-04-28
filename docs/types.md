@@ -17,6 +17,51 @@ interface ClientOptions {
 
 <hr>
 
+<h2>HealthResponse</h2>
+
+```ts
+interface HealthResponse {
+  status: string;
+  service: string;
+  version: string;
+  contract_version: string;
+}
+```
+
+<hr>
+
+<h2>ProjectVersionResponse</h2>
+
+```ts
+interface ProjectVersionResponse {
+  service_name: string;
+  package_name?: string;
+  app_name: string;
+  version: string;
+  contract_version: string;
+  repository: string;
+  npm_package?: string;
+  image?: string;
+}
+```
+
+<hr>
+
+<h2>ReadyResponse</h2>
+
+```ts
+interface ReadyResponse {
+  status: string;
+  service: string;
+  version: string;
+  contract_version: string;
+  core?: ReadyServiceStatus;
+  antispoof?: ReadyServiceStatus;
+}
+```
+
+<hr>
+
 <h2>VerifyRequest</h2>
 
 ```ts
@@ -54,8 +99,8 @@ interface VerifyResponse {
   cred_global_score: number;
   age_check: AgeCheckResponse;
   liveness_check: LivenessCheckResponse;
-  privacy: PrivacyMetadata;
-  zk_proof: ZkProofMetadata;
+  privacy: PrivacyMetadataResponse;
+  zk_proof: ZkProofMetadataResponse;
   reason?: string | null;
 }
 ```
@@ -91,10 +136,10 @@ interface LivenessCheckResponse {
 
 <hr>
 
-<h2>PrivacyMetadata</h2>
+<h2>PrivacyMetadataResponse</h2>
 
 ```ts
-interface PrivacyMetadata {
+interface PrivacyMetadataResponse {
   image_stored: boolean;
   biometric_template_stored: boolean;
   raw_image_logged: boolean;
@@ -105,16 +150,65 @@ interface PrivacyMetadata {
 
 <hr>
 
-<h2>ZkProofMetadata</h2>
+<h2>ZkProofMetadataResponse</h2>
 
 ```ts
-interface ZkProofMetadata {
+interface ZkProofMetadataResponse {
   zk_ready: boolean;
   proof_type: string;
   proof_status: string;
   statement: string;
 }
 ```
+
+<hr>
+
+<h2>Project metadata</h2>
+
+<!-- BEGIN:PROJECT_METADATA -->
+```json
+{
+  "service_name": "age-decision-js",
+  "package_name": "@credona/age-decision",
+  "app_name": "Age Decision JS SDK",
+  "version": "2.1.0",
+  "contract_version": "2.0",
+  "repository": "https://github.com/credona/age-decision-js",
+  "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
+}
+```
+<!-- END:PROJECT_METADATA -->
+
+<hr>
+
+<h2>Compatibility metadata</h2>
+
+<!-- BEGIN:COMPATIBILITY_METADATA -->
+```json
+{
+  "service": "age-decision-js",
+  "package": "@credona/age-decision",
+  "version": "2.1.0",
+  "contract_version": "2.0",
+  "compatible_with": {
+    "age-decision-api": ">=2.0.0 <3.0.0"
+  },
+  "public_contract": {
+    "client": "AgeDecisionClient",
+    "metadata_endpoint": "/version",
+    "decision_values": [
+      "allow",
+      "deny"
+    ],
+    "score_field": "cred_global_score",
+    "estimated_age_exposed": false,
+    "raw_age_confidence_exposed": false,
+    "raw_liveness_confidence_exposed": false,
+    "legacy_cred_score_exposed": false
+  }
+}
+```
+<!-- END:COMPATIBILITY_METADATA -->
 
 <hr>
 

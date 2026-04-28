@@ -2,6 +2,7 @@ import { HttpError, TimeoutError } from "./errors";
 import {
   ClientOptions,
   HealthResponse,
+  ProjectVersionResponse,
   ReadyResponse,
   VerifyRequest,
   VerifyResponse,
@@ -23,6 +24,12 @@ export class AgeDecisionClient {
 
   health(): Promise<HealthResponse> {
     return this.request<HealthResponse>("/health", {
+      method: "GET",
+    });
+  }
+
+  version(): Promise<ProjectVersionResponse> {
+    return this.request<ProjectVersionResponse>("/version", {
       method: "GET",
     });
   }

@@ -16,6 +16,19 @@ export interface VerifyRequest {
 export interface HealthResponse {
   status: string;
   service: string;
+  version: string;
+  contract_version: string;
+}
+
+export interface ProjectVersionResponse {
+  service_name: string;
+  package_name?: string;
+  app_name: string;
+  version: string;
+  contract_version: string;
+  repository: string;
+  npm_package?: string;
+  image?: string;
 }
 
 export interface ReadyServiceStatus {
@@ -26,6 +39,8 @@ export interface ReadyServiceStatus {
 export interface ReadyResponse {
   status: string;
   service: string;
+  version: string;
+  contract_version: string;
   core?: ReadyServiceStatus;
   antispoof?: ReadyServiceStatus;
 }

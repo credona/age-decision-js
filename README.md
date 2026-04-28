@@ -11,7 +11,7 @@
 
 Age Decision JS SDK is a TypeScript and JavaScript client for the Age Decision API.
 
-It provides a typed fetch-based client for health, readiness and verification endpoints.
+It provides a typed fetch-based client for health, version, readiness and verification endpoints.
 
 It does not perform age estimation or anti-spoofing locally.
 
@@ -21,8 +21,10 @@ It does not load, download, store, or redistribute machine learning model files.
 
 <h2>Documentation</h2>
 
+- Repository: https://github.com/credona/age-decision-js
 - Usage: docs/usage.md
 - API types: docs/types.md
+- Compatibility: docs/compatibility.md
 - Changelog: CHANGELOG.md
 - Contributing: CONTRIBUTING.md
 - Global project: https://github.com/credona/age-decision
@@ -57,6 +59,11 @@ const client = new AgeDecisionClient({
   retryDelay: 300
 });
 
+const version = await client.version();
+
+console.log(version.version);
+console.log(version.contract_version);
+
 const result = await client.verify({
   imageBase64: "base64-image",
   ageThreshold: 18,
@@ -66,6 +73,59 @@ const result = await client.verify({
 console.log(result.decision);
 console.log(result.cred_global_score);
 ```
+
+<hr>
+
+<h2>Project metadata</h2>
+
+Project metadata is declared in `project.json`.
+
+<!-- BEGIN:PROJECT_METADATA -->
+```json
+{
+  "service_name": "age-decision-js",
+  "package_name": "@credona/age-decision",
+  "app_name": "Age Decision JS SDK",
+  "version": "2.1.0",
+  "contract_version": "2.0",
+  "repository": "https://github.com/credona/age-decision-js",
+  "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
+}
+```
+<!-- END:PROJECT_METADATA -->
+
+<hr>
+
+<h2>Compatibility metadata</h2>
+
+Compatibility metadata is declared in `compatibility.json`.
+
+<!-- BEGIN:COMPATIBILITY_METADATA -->
+```json
+{
+  "service": "age-decision-js",
+  "package": "@credona/age-decision",
+  "version": "2.1.0",
+  "contract_version": "2.0",
+  "compatible_with": {
+    "age-decision-api": ">=2.0.0 <3.0.0"
+  },
+  "public_contract": {
+    "client": "AgeDecisionClient",
+    "metadata_endpoint": "/version",
+    "decision_values": [
+      "allow",
+      "deny"
+    ],
+    "score_field": "cred_global_score",
+    "estimated_age_exposed": false,
+    "raw_age_confidence_exposed": false,
+    "raw_liveness_confidence_exposed": false,
+    "legacy_cred_score_exposed": false
+  }
+}
+```
+<!-- END:COMPATIBILITY_METADATA -->
 
 <hr>
 
@@ -79,6 +139,7 @@ This SDK:
 - handles timeouts
 - handles retries
 - exposes HTTP errors
+- exposes typed project version metadata
 
 It does not:
 
@@ -112,6 +173,23 @@ Run integration tests:
 docker compose -f docker-compose.integration.yml down -v --remove-orphans
 docker compose -f docker-compose.integration.yml pull
 docker compose -f docker-compose.integration.yml up --build --abort-on-container-exit
+```
+
+<hr>
+
+<h2>Quality checks</h2>
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run build
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run test
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:metadata
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run pack:check
+```
+
+Update generated documentation blocks:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run docs:generate
 ```
 
 <hr>

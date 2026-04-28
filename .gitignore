@@ -10,7 +10,7 @@ dist/
 coverage/
 *.tsbuildinfo
 
-# Env
+# Environment
 .env
 .env.*
 !.env.example
@@ -24,15 +24,14 @@ logs/
 Thumbs.db
 
 # IDE
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/
 *.swp
 
 # Docker
 docker-compose.override.yml
 
-# Tests
-coverage/
-
-# Misc
+# Package artifacts
 *.tgz
