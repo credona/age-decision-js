@@ -10,7 +10,7 @@ on:
 
 jobs:
   quality:
-    name: Quality, metadata and docs
+    name: Quality, metadata, docs, build and tests
     runs-on: ubuntu-latest
 
     steps:
@@ -26,28 +26,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check project and compatibility metadata
-        run: npm run check:metadata
-
-      - name: Check generated documentation
-        run: |
-          npm run docs:generate
-          git diff --exit-code README.md docs/usage.md docs/types.md docs/compatibility.md
-
-      - name: Build package
-        run: npm run build
-
-      - name: Run unit tests
-        run: npm run test
-
-      - name: Check npm package content
-        run: npm run pack:check
+      - name: Run CI-equivalent checks
+        run: npm run check:all
 
   integration:
     name: Docker integration
     runs-on: ubuntu-latest
-    needs:
-      - quality
+    needs: [quality]
     timeout-minutes: 12
 
     steps:
@@ -72,3 +57,33 @@ jobs:
       - name: Cleanup integration stack
         if: always()
         run: docker compose -f docker-compose.integration.yml down -v --remove-orphans
+
+  auto-tag:
+    name: Automatic release tag
+    runs-on: ubuntu-latest
+    needs: [integration]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create tag from project metadata
+        env:
+          AGE_DECISION_RELEASE_TOKEN: ${{ secrets.AGE_DECISION_RELEASE_TOKEN }}
+        run: node scripts/release/create-tag-from-project.mjs

@@ -18,6 +18,23 @@ docker compose -f docker-compose.dev.yml up -d --build
 
 <hr>
 
+<h2>Developer workflow</h2>
+
+Run the complete local validation command:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:local
+```
+
+Prepare a release locally:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run release:prepare
+```
+
+<hr>
+
+
 <h2>Run tests</h2>
 
 ```bash
@@ -125,8 +142,8 @@ Release tags must match the version declared in `project.json`.
 Example:
 
 ```text
-project.json version: 2.1.0
-Git tag: v2.1.0
+project.json version: 2.2.0
+Git tag: v2.2.0
 ```
 
 <hr>

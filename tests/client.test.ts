@@ -1,13 +1,25 @@
+import fs from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AgeDecisionClient } from "../src/client";
 import { HttpError, TimeoutError } from "../src/errors";
 import { MOCK_API_BASE_URL } from "./constants";
 
+const project = JSON.parse(fs.readFileSync("project.json", "utf8"));
+
 const HEALTH_RESPONSE = {
   status: "ok",
   service: "age-decision-api",
-  version: "2.1.0",
-  contract_version: "2.0",
+  version: project.version,
+  contract_version: project.contract_version,
+};
+
+const VERSION_RESPONSE = {
+  service_name: "age-decision-api",
+  app_name: "Age Decision API",
+  version: project.version,
+  contract_version: project.contract_version,
+  repository: "https://github.com/credona/age-decision-api",
+  image: "ghcr.io/credona/age-decision-api",
 };
 
 afterEach(() => {
@@ -45,14 +57,7 @@ describe("AgeDecisionClient", () => {
       "fetch",
       vi.fn().mockResolvedValue({
         ok: true,
-        json: async () => ({
-          service_name: "age-decision-api",
-          app_name: "Age Decision API",
-          version: "2.1.0",
-          contract_version: "2.0",
-          repository: "https://github.com/credona/age-decision-api",
-          image: "ghcr.io/credona/age-decision-api",
-        }),
+        json: async () => VERSION_RESPONSE,
       }),
     );
 
@@ -62,8 +67,8 @@ describe("AgeDecisionClient", () => {
 
     const result = await client.version();
 
-    expect(result.version).toBe("2.1.0");
-    expect(result.contract_version).toBe("2.0");
+    expect(result.version).toBe(project.version);
+    expect(result.contract_version).toBe(project.contract_version);
     expect(fetch).toHaveBeenCalledWith(
       `${MOCK_API_BASE_URL}/version`,
       expect.objectContaining({

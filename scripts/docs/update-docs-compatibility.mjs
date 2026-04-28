@@ -8,6 +8,21 @@ let doc = fs.readFileSync("docs/compatibility.md", "utf8");
 doc = replaceBlock(doc, "PROJECT_METADATA", project);
 doc = replaceBlock(doc, "COMPATIBILITY_METADATA", compatibility);
 
+doc = doc.replace(
+  /The SDK v\d+\.\d+\.\d+ targets Age Decision API v2\.x\./g,
+  `The SDK v${project.version} targets Age Decision API v2.x.`,
+);
+
+doc = doc.replace(
+  /project\.json version: \d+\.\d+\.\d+/g,
+  `project.json version: ${project.version}`,
+);
+
+doc = doc.replace(
+  /expected Git tag: v\d+\.\d+\.\d+/g,
+  `expected Git tag: v${project.version}`,
+);
+
 fs.writeFileSync("docs/compatibility.md", doc);
 
 function replaceBlock(content, blockName, payload) {

@@ -1,6 +1,6 @@
 {
   "name": "@credona/age-decision",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "JavaScript and TypeScript SDK for Age Decision API.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -29,9 +29,12 @@
     "test:integration": "vitest run tests/integration",
     "pack:check": "npm pack --dry-run",
     "test:unit": "vitest run tests/*.test.ts",
-    "check:metadata": "node scripts/check-project-metadata.mjs && node scripts/check-compatibility-metadata.mjs",
-    "check:release": "node scripts/check-release-metadata.mjs",
-    "docs:generate": "node scripts/update-readme-examples.mjs && node scripts/update-docs-usage.mjs && node scripts/update-docs-types.mjs && node scripts/update-docs-compatibility.mjs"
+    "check:metadata": "node scripts/metadata/check-project-metadata.mjs && node scripts/metadata/check-compatibility-metadata.mjs",
+    "check:release": "node scripts/metadata/check-release-metadata.mjs",
+    "docs:generate": "node scripts/docs/update-compatibility.mjs && node scripts/docs/update-readme-examples.mjs && node scripts/docs/update-docs-usage.mjs && node scripts/docs/update-docs-types.mjs && node scripts/docs/update-docs-compatibility.mjs && node scripts/docs/update-contributing.mjs",
+    "check:all": "scripts/ci/check_all.sh",
+    "check:local": "scripts/dev/check_local.sh",
+    "release:prepare": "scripts/ci/release_prepare.sh"
   },
   "keywords": [
     "age-verification",

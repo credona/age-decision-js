@@ -70,7 +70,7 @@ Generated view:
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "contract_version": "2.0",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
@@ -97,7 +97,7 @@ Generated view:
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "contract_version": "2.0",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
@@ -125,7 +125,7 @@ This file is machine-readable and checked by CI.
 
 <h2>Compatible API line</h2>
 
-The SDK v2.1.0 targets Age Decision API v2.x.
+The SDK v2.2.0 targets Age Decision API v2.x.
 
 The SDK expects the API to expose:
 
@@ -299,8 +299,8 @@ On tag release, CI verifies that the Git tag matches the version declared in `pr
 Example:
 
 ```text
-project.json version: 2.1.0
-expected Git tag: v2.1.0
+project.json version: 2.2.0
+expected Git tag: v2.2.0
 ```
 
 A mismatched tag must fail the release or publish workflow.
