@@ -9,8 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  release:
-    name: Create GitHub release
+  verify-release:
+    name: Verify release
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
 
       - name: Install dependencies
@@ -31,6 +31,15 @@ jobs:
 
       - name: Run CI-equivalent checks
         run: npm run check:all
+
+  release:
+    name: Create GitHub release
+    runs-on: ubuntu-latest
+    needs: [verify-release]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
       - name: Create release with generated notes
         uses: softprops/action-gh-release@v3

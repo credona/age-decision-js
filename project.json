@@ -2,8 +2,22 @@
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.2.0",
-  "contract_version": "2.0",
+  "version": "2.2.1",
+  "contract_version": "2.2",
   "repository": "https://github.com/credona/age-decision-js",
-  "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
+  "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
+  "license": "Apache-2.0",
+  "docker": {
+    "dev": {
+      "dockerfile": "Dockerfile.dev",
+      "image": "age-decision-js-dev",
+      "title": "Age Decision JS SDK Dev",
+      "description": "Development image for the Age Decision JavaScript and TypeScript SDK."
+    }
+  },
+  "integration": {
+    "age-decision-core": "2.2.1",
+    "age-decision-antispoof": "2.2.1",
+    "age-decision-api": "2.2.1"
+  }
 }

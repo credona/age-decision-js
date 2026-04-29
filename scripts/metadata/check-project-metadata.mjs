@@ -22,11 +22,15 @@ for (const field of requiredFields) {
 }
 
 if (project.package_name !== packageJson.name) {
-  throw new Error(`package_name mismatch: ${project.package_name} !== ${packageJson.name}`);
+  throw new Error(
+    `package_name mismatch: ${project.package_name} !== ${packageJson.name}`,
+  );
 }
 
 if (project.version !== packageJson.version) {
-  throw new Error(`version mismatch: ${project.version} !== ${packageJson.version}`);
+  throw new Error(
+    `version mismatch: ${project.version} !== ${packageJson.version}`,
+  );
 }
 
 if (!/^\d+\.\d+\.\d+$/.test(project.version)) {

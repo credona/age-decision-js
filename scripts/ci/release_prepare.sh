@@ -1,17 +1,18 @@
 #!/bin/sh
 set -e
 
+node scripts/metadata/sync-metadata.mjs
+node scripts/integration/update-compose-integration.mjs
+
 npm run docs:generate
-npm run check:metadata
-npm run check:release
+npx prettier --write .
+
+node scripts/metadata/check-project-metadata.mjs
+node scripts/metadata/check-compatibility-metadata.mjs
+node scripts/metadata/check-release-metadata.mjs
+
 npm run build
 npm run test
 npm run pack:check
-
-if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  git diff --exit-code
-else
-  echo "Skipping git diff (not a git repository)"
-fi
 
 echo "Release preparation passed."

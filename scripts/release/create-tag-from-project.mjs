@@ -67,7 +67,11 @@ run("git", [
 ]);
 
 run("git", ["config", "user.name", "github-actions[bot]"]);
-run("git", ["config", "user.email", "github-actions[bot]@users.noreply.github.com"]);
+run("git", [
+  "config",
+  "user.email",
+  "github-actions[bot]@users.noreply.github.com",
+]);
 run("git", ["tag", "-a", tag, "-m", `Release ${tag}`]);
 run("git", ["push", "origin", tag]);
 
