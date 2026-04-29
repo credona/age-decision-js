@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    image: age-decision-js-dev:2.2.1
     container_name: age-decision-js
     volumes:
       - .:/app

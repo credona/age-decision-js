@@ -166,17 +166,33 @@ interface ZkProofMetadataResponse {
 <h2>Project metadata</h2>
 
 <!-- BEGIN:PROJECT_METADATA -->
+
 ```json
 {
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.2.0",
-  "contract_version": "2.0",
+  "version": "2.2.1",
+  "contract_version": "2.2",
   "repository": "https://github.com/credona/age-decision-js",
-  "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
+  "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
+  "license": "Apache-2.0",
+  "docker": {
+    "dev": {
+      "dockerfile": "Dockerfile.dev",
+      "image": "age-decision-js-dev",
+      "title": "Age Decision JS SDK Dev",
+      "description": "Development image for the Age Decision JavaScript and TypeScript SDK."
+    }
+  },
+  "integration": {
+    "age-decision-core": "2.2.1",
+    "age-decision-antispoof": "2.2.1",
+    "age-decision-api": "2.2.1"
+  }
 }
 ```
+
 <!-- END:PROJECT_METADATA -->
 
 <hr>
@@ -184,22 +200,20 @@ interface ZkProofMetadataResponse {
 <h2>Compatibility metadata</h2>
 
 <!-- BEGIN:COMPATIBILITY_METADATA -->
+
 ```json
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.2.0",
-  "contract_version": "2.0",
+  "version": "2.2.1",
+  "contract_version": "2.2",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
   },
   "public_contract": {
     "client": "AgeDecisionClient",
     "metadata_endpoint": "/version",
-    "decision_values": [
-      "allow",
-      "deny"
-    ],
+    "decision_values": ["allow", "deny"],
     "score_field": "cred_global_score",
     "estimated_age_exposed": false,
     "raw_age_confidence_exposed": false,
@@ -208,6 +222,7 @@ interface ZkProofMetadataResponse {
   }
 }
 ```
+
 <!-- END:COMPATIBILITY_METADATA -->
 
 <hr>

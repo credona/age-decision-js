@@ -20,10 +20,17 @@ docker compose -f docker-compose.dev.yml up -d --build
 
 <h2>Developer workflow</h2>
 
-Run the complete local validation command:
+Run auto-fix and full validation through Docker:
 
 ```bash
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:local
+npm run fix:docker
+npm run check:docker
+```
+
+Run the complete local validation command inside the container:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:all
 ```
 
 Prepare a release locally:
@@ -34,41 +41,34 @@ docker compose -f docker-compose.dev.yml exec age-decision-js npm run release:pr
 
 <hr>
 
-
-<h2>Run tests</h2>
-
-```bash
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run test
-```
-
-<hr>
-
-<h2>Build package</h2>
+<h2>Build and tests</h2>
 
 ```bash
 docker compose -f docker-compose.dev.yml exec age-decision-js npm run build
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run test
 docker compose -f docker-compose.dev.yml exec age-decision-js npm run pack:check
 ```
 
 <hr>
 
-<h2>Metadata checks</h2>
+<h2>Generated files</h2>
+
+Some files are synchronized from `project.json` and `compatibility.json`.
+
+This includes:
+
+- `package.json`
+- `compatibility.json`
+- documentation blocks
+- `docker-compose.integration.yml`
+
+Use:
 
 ```bash
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:metadata
+npm run fix:docker
 ```
 
-<hr>
-
-<h2>Update generated documentation</h2>
-
-Some documentation blocks are generated from `project.json` and `compatibility.json`.
-
-Run:
-
-```bash
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run docs:generate
-```
+Do not edit generated blocks manually.
 
 Generated blocks are delimited by comments such as:
 
@@ -77,11 +77,15 @@ Generated blocks are delimited by comments such as:
 <!-- END:PROJECT_METADATA -->
 ```
 
-Do not edit generated blocks manually.
-
 <hr>
 
 <h2>Integration tests</h2>
+
+Integration image versions are declared in `project.json`.
+
+The integration compose file is synchronized automatically.
+
+Run:
 
 ```bash
 docker compose -f docker-compose.integration.yml pull
@@ -104,6 +108,8 @@ Good SDK contributions include:
 - browser helper utilities
 - framework examples
 - integration tests
+- developer workflow improvements
+- release automation improvements
 
 <hr>
 
@@ -129,10 +135,10 @@ Project identity metadata must be edited in:
 project.json
 ```
 
-Compatibility metadata must be edited in:
+Compatibility metadata is synchronized from:
 
 ```text
-compatibility.json
+project.json
 ```
 
 The package version in `package.json` must match `project.json`.
@@ -142,8 +148,8 @@ Release tags must match the version declared in `project.json`.
 Example:
 
 ```text
-project.json version: 2.2.0
-Git tag: v2.2.0
+project.json version: 2.2.1
+Git tag: v2.2.1
 ```
 
 <hr>

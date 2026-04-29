@@ -18,13 +18,11 @@ This document applies to:
 - compatibility metadata
 - npm package contents
 
-Internal implementation details are not considered stable unless explicitly documented.
+Internal implementation details are not stable unless explicitly documented.
 
 <hr>
 
 <h2>Stable public exports</h2>
-
-The following public exports are part of the SDK contract:
 
 ```text
 AgeDecisionClient
@@ -43,8 +41,6 @@ ErrorResponse
 
 <h2>Stable client methods</h2>
 
-The following methods are part of the SDK contract:
-
 ```text
 client.health()
 client.version()
@@ -54,78 +50,9 @@ client.verify()
 
 <hr>
 
-<h2>Project metadata</h2>
-
-Project metadata is stored in:
-
-```text
-project.json
-```
-
-Generated view:
-
-<!-- BEGIN:PROJECT_METADATA -->
-```json
-{
-  "service_name": "age-decision-js",
-  "package_name": "@credona/age-decision",
-  "app_name": "Age Decision JS SDK",
-  "version": "2.2.0",
-  "contract_version": "2.0",
-  "repository": "https://github.com/credona/age-decision-js",
-  "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
-}
-```
-<!-- END:PROJECT_METADATA -->
-
-The package version in `package.json` must match `project.json`.
-
-<hr>
-
-<h2>Compatibility metadata</h2>
-
-Compatibility metadata is stored in:
-
-```text
-compatibility.json
-```
-
-Generated view:
-
-<!-- BEGIN:COMPATIBILITY_METADATA -->
-```json
-{
-  "service": "age-decision-js",
-  "package": "@credona/age-decision",
-  "version": "2.2.0",
-  "contract_version": "2.0",
-  "compatible_with": {
-    "age-decision-api": ">=2.0.0 <3.0.0"
-  },
-  "public_contract": {
-    "client": "AgeDecisionClient",
-    "metadata_endpoint": "/version",
-    "decision_values": [
-      "allow",
-      "deny"
-    ],
-    "score_field": "cred_global_score",
-    "estimated_age_exposed": false,
-    "raw_age_confidence_exposed": false,
-    "raw_liveness_confidence_exposed": false,
-    "legacy_cred_score_exposed": false
-  }
-}
-```
-<!-- END:COMPATIBILITY_METADATA -->
-
-This file is machine-readable and checked by CI.
-
-<hr>
-
 <h2>Compatible API line</h2>
 
-The SDK v2.2.0 targets Age Decision API v2.x.
+The SDK v2.2.1 targets Age Decision API v2.x.
 
 The SDK expects the API to expose:
 
@@ -216,6 +143,90 @@ legacy cred_score alias
 
 <hr>
 
+<h2>Project metadata</h2>
+
+Project metadata is stored in:
+
+```text
+project.json
+```
+
+Generated view:
+
+<!-- BEGIN:PROJECT_METADATA -->
+
+```json
+{
+  "service_name": "age-decision-js",
+  "package_name": "@credona/age-decision",
+  "app_name": "Age Decision JS SDK",
+  "version": "2.2.1",
+  "contract_version": "2.2",
+  "repository": "https://github.com/credona/age-decision-js",
+  "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
+  "license": "Apache-2.0",
+  "docker": {
+    "dev": {
+      "dockerfile": "Dockerfile.dev",
+      "image": "age-decision-js-dev",
+      "title": "Age Decision JS SDK Dev",
+      "description": "Development image for the Age Decision JavaScript and TypeScript SDK."
+    }
+  },
+  "integration": {
+    "age-decision-core": "2.2.1",
+    "age-decision-antispoof": "2.2.1",
+    "age-decision-api": "2.2.1"
+  }
+}
+```
+
+<!-- END:PROJECT_METADATA -->
+
+The package version in `package.json` must match `project.json`.
+
+<hr>
+
+<h2>Compatibility metadata</h2>
+
+Compatibility metadata is stored in:
+
+```text
+compatibility.json
+```
+
+Generated view:
+
+<!-- BEGIN:COMPATIBILITY_METADATA -->
+
+```json
+{
+  "service": "age-decision-js",
+  "package": "@credona/age-decision",
+  "version": "2.2.1",
+  "contract_version": "2.2",
+  "compatible_with": {
+    "age-decision-api": ">=2.0.0 <3.0.0"
+  },
+  "public_contract": {
+    "client": "AgeDecisionClient",
+    "metadata_endpoint": "/version",
+    "decision_values": ["allow", "deny"],
+    "score_field": "cred_global_score",
+    "estimated_age_exposed": false,
+    "raw_age_confidence_exposed": false,
+    "raw_liveness_confidence_exposed": false,
+    "legacy_cred_score_exposed": false
+  }
+}
+```
+
+<!-- END:COMPATIBILITY_METADATA -->
+
+This file is machine-readable and checked by CI.
+
+<hr>
+
 <h2>Backward-compatible changes</h2>
 
 The following changes are considered backward-compatible in v2.x:
@@ -273,6 +284,28 @@ Docker development files
 
 <hr>
 
+<h2>Integration compatibility</h2>
+
+Integration image versions are declared in:
+
+```text
+project.json
+```
+
+They are synchronized into:
+
+```text
+docker-compose.integration.yml
+```
+
+Use:
+
+```bash
+npm run fix:docker
+```
+
+<hr>
+
 <h2>Generated documentation</h2>
 
 The following documentation blocks are generated from `project.json` and `compatibility.json`:
@@ -299,8 +332,8 @@ On tag release, CI verifies that the Git tag matches the version declared in `pr
 Example:
 
 ```text
-project.json version: 2.2.0
-expected Git tag: v2.2.0
+project.json version: 2.2.1
+expected Git tag: v2.2.1
 ```
 
 A mismatched tag must fail the release or publish workflow.

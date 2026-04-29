@@ -2,12 +2,6 @@
 
 This document describes how to use the TypeScript and JavaScript SDK.
 
-For global project concepts, see:
-
-```text
-https://github.com/credona/age-decision
-```
-
 <hr>
 
 <h2>Create a client</h2>
@@ -19,7 +13,7 @@ const client = new AgeDecisionClient({
   baseUrl: "https://your-age-decision-api.example.com",
   timeout: 5000,
   retries: 1,
-  retryDelay: 300
+  retryDelay: 300,
 });
 ```
 
@@ -71,7 +65,7 @@ console.log(ready.contract_version);
 const result = await client.verify({
   imageBase64: "base64-image",
   ageThreshold: 18,
-  majorityCountry: "FR"
+  majorityCountry: "FR",
 });
 
 console.log(result.decision);
@@ -91,7 +85,7 @@ const result = await client.verify({
   ageThreshold: 18,
   majorityCountry: "FR",
   requestId: "req-001",
-  correlationId: "corr-001"
+  correlationId: "corr-001",
 });
 
 console.log(result.request_id);
@@ -103,6 +97,78 @@ The SDK sends these values through headers:
 ```text
 X-Request-ID
 X-Correlation-ID
+```
+
+<hr>
+
+<h2>Error handling</h2>
+
+```ts
+import {
+  AgeDecisionClient,
+  HttpError,
+  TimeoutError,
+} from "@credona/age-decision";
+
+const client = new AgeDecisionClient({
+  baseUrl: "https://your-age-decision-api.example.com",
+  timeout: 5000,
+});
+
+try {
+  const result = await client.verify({
+    imageBase64: "base64-image",
+    ageThreshold: 18,
+  });
+
+  console.log(result);
+} catch (error) {
+  if (error instanceof TimeoutError) {
+    console.error("Request timeout:", error.timeout);
+  }
+
+  if (error instanceof HttpError) {
+    console.error("HTTP error:", error.status);
+    console.error(error.body);
+  }
+
+  throw error;
+}
+```
+
+<hr>
+
+<h2>Configuration</h2>
+
+| Option       | Type     | Default  | Description                                  |
+| ------------ | -------- | -------- | -------------------------------------------- |
+| `baseUrl`    | `string` | required | Base URL of the Age Decision API instance    |
+| `timeout`    | `number` | `5000`   | Request timeout in milliseconds              |
+| `retries`    | `number` | `0`      | Number of retry attempts                     |
+| `retryDelay` | `number` | `300`    | Delay between retry attempts in milliseconds |
+
+<hr>
+
+<h2>Development</h2>
+
+```bash
+docker compose -f docker-compose.dev.yml up -d --build
+npm run fix:docker
+npm run check:docker
+```
+
+<hr>
+
+<h2>Integration tests</h2>
+
+Integration tests run the SDK against published Age Decision Docker images.
+
+Image versions are declared in `project.json` and synchronized into `docker-compose.integration.yml`.
+
+```bash
+docker compose -f docker-compose.integration.yml pull
+docker compose -f docker-compose.integration.yml up --build --abort-on-container-exit --exit-code-from age-decision-js
+docker compose -f docker-compose.integration.yml down -v --remove-orphans
 ```
 
 <hr>
@@ -132,17 +198,33 @@ project.json
 Generated view:
 
 <!-- BEGIN:PROJECT_METADATA -->
+
 ```json
 {
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.2.0",
-  "contract_version": "2.0",
+  "version": "2.2.1",
+  "contract_version": "2.2",
   "repository": "https://github.com/credona/age-decision-js",
-  "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
+  "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
+  "license": "Apache-2.0",
+  "docker": {
+    "dev": {
+      "dockerfile": "Dockerfile.dev",
+      "image": "age-decision-js-dev",
+      "title": "Age Decision JS SDK Dev",
+      "description": "Development image for the Age Decision JavaScript and TypeScript SDK."
+    }
+  },
+  "integration": {
+    "age-decision-core": "2.2.1",
+    "age-decision-antispoof": "2.2.1",
+    "age-decision-api": "2.2.1"
+  }
 }
 ```
+
 <!-- END:PROJECT_METADATA -->
 
 <hr>
@@ -158,22 +240,20 @@ compatibility.json
 Generated view:
 
 <!-- BEGIN:COMPATIBILITY_METADATA -->
+
 ```json
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.2.0",
-  "contract_version": "2.0",
+  "version": "2.2.1",
+  "contract_version": "2.2",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
   },
   "public_contract": {
     "client": "AgeDecisionClient",
     "metadata_endpoint": "/version",
-    "decision_values": [
-      "allow",
-      "deny"
-    ],
+    "decision_values": ["allow", "deny"],
     "score_field": "cred_global_score",
     "estimated_age_exposed": false,
     "raw_age_confidence_exposed": false,
@@ -182,92 +262,8 @@ Generated view:
   }
 }
 ```
+
 <!-- END:COMPATIBILITY_METADATA -->
-
-<hr>
-
-<h2>Error handling</h2>
-
-```ts
-import {
-  AgeDecisionClient,
-  HttpError,
-  TimeoutError
-} from "@credona/age-decision";
-
-const client = new AgeDecisionClient({
-  baseUrl: "https://your-age-decision-api.example.com",
-  timeout: 5000
-});
-
-try {
-  const result = await client.verify({
-    imageBase64: "base64-image",
-    ageThreshold: 18
-  });
-
-  console.log(result);
-} catch (error) {
-  if (error instanceof TimeoutError) {
-    console.error("Request timeout:", error.timeout);
-  }
-
-  if (error instanceof HttpError) {
-    console.error("HTTP error:", error.status);
-    console.error(error.body);
-  }
-
-  throw error;
-}
-```
-
-<hr>
-
-<h2>Configuration</h2>
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `baseUrl` | `string` | required | Base URL of the Age Decision API instance |
-| `timeout` | `number` | `5000` | Request timeout in milliseconds |
-| `retries` | `number` | `0` | Number of retry attempts |
-| `retryDelay` | `number` | `300` | Delay between retry attempts in milliseconds |
-
-<hr>
-
-<h2>Development</h2>
-
-```bash
-docker compose -f docker-compose.dev.yml up -d --build
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run test
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run build
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:metadata
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run pack:check
-```
-
-<hr>
-
-Run the full local validation:
-
-```bash
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:local
-```
-
-Prepare a release locally:
-
-```bash
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run release:prepare
-```
-<h>
-
-<h2>Integration tests</h2>
-
-Integration tests run the SDK against published Age Decision Docker images.
-
-```bash
-docker compose -f docker-compose.integration.yml pull
-docker compose -f docker-compose.integration.yml up --build --abort-on-container-exit --exit-code-from age-decision-js
-docker compose -f docker-compose.integration.yml down -v --remove-orphans
-```
 
 <hr>
 

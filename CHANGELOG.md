@@ -6,6 +6,21 @@ Global project direction is tracked in the central Age Decision repository.
 
 <hr>
 
+<h2>2.2.1</h2>
+
+<ul>
+  <li>Introduced single source of truth metadata via project.json.</li>
+  <li>Synchronized package.json and compatibility.json from project metadata.</li>
+  <li>Added Docker-first local validation for the SDK.</li>
+  <li>Added one-command auto-fix pipeline (fix_all_docker.sh).</li>
+  <li>Added one-command CI-equivalent validation (check_all_docker.sh).</li>
+  <li>Added generated documentation synchronization checks.</li>
+  <li>Added pre-push validation hook aligned with CI.</li>
+  <li>Simplified SDK developer workflow.</li>
+</ul>
+
+<hr>
+
 <h2>2.2.0</h2>
 
 <ul>

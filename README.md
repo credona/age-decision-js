@@ -11,7 +11,7 @@
 
 Age Decision JS SDK is a TypeScript and JavaScript client for the Age Decision API.
 
-It provides a typed fetch-based client for health, version, readiness and verification endpoints.
+It provides a typed fetch-based client for health, version, readiness, and verification endpoints.
 
 It does not perform age estimation or anti-spoofing locally.
 
@@ -56,7 +56,7 @@ const client = new AgeDecisionClient({
   baseUrl: "https://your-age-decision-api.example.com",
   timeout: 5000,
   retries: 1,
-  retryDelay: 300
+  retryDelay: 300,
 });
 
 const version = await client.version();
@@ -67,11 +67,61 @@ console.log(version.contract_version);
 const result = await client.verify({
   imageBase64: "base64-image",
   ageThreshold: 18,
-  majorityCountry: "FR"
+  majorityCountry: "FR",
 });
 
 console.log(result.decision);
 console.log(result.cred_global_score);
+```
+
+<hr>
+
+<h2>Developer workflow</h2>
+
+Start the SDK development container:
+
+```bash
+docker compose -f docker-compose.dev.yml up -d --build
+```
+
+Run auto-fix and validation through Docker:
+
+```bash
+npm run fix:docker
+npm run check:docker
+```
+
+Run the full local check inside the container:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:all
+```
+
+Prepare a release locally:
+
+```bash
+docker compose -f docker-compose.dev.yml exec age-decision-js npm run release:prepare
+```
+
+<hr>
+
+<h2>Integration tests</h2>
+
+Integration tests run the SDK against published Docker images for:
+
+- Age Decision Core
+- Age Decision AntiSpoof
+- Age Decision API
+
+The image versions are declared in `project.json` and synchronized into `docker-compose.integration.yml`.
+
+Run integration tests:
+
+```bash
+docker compose -f docker-compose.integration.yml down -v --remove-orphans
+docker compose -f docker-compose.integration.yml pull
+docker compose -f docker-compose.integration.yml up --build --abort-on-container-exit --exit-code-from age-decision-js
+docker compose -f docker-compose.integration.yml down -v --remove-orphans
 ```
 
 <hr>
@@ -81,17 +131,33 @@ console.log(result.cred_global_score);
 Project metadata is declared in `project.json`.
 
 <!-- BEGIN:PROJECT_METADATA -->
+
 ```json
 {
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.2.0",
-  "contract_version": "2.0",
+  "version": "2.2.1",
+  "contract_version": "2.2",
   "repository": "https://github.com/credona/age-decision-js",
-  "npm_package": "https://www.npmjs.com/package/@credona/age-decision"
+  "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
+  "license": "Apache-2.0",
+  "docker": {
+    "dev": {
+      "dockerfile": "Dockerfile.dev",
+      "image": "age-decision-js-dev",
+      "title": "Age Decision JS SDK Dev",
+      "description": "Development image for the Age Decision JavaScript and TypeScript SDK."
+    }
+  },
+  "integration": {
+    "age-decision-core": "2.2.1",
+    "age-decision-antispoof": "2.2.1",
+    "age-decision-api": "2.2.1"
+  }
 }
 ```
+
 <!-- END:PROJECT_METADATA -->
 
 <hr>
@@ -101,22 +167,20 @@ Project metadata is declared in `project.json`.
 Compatibility metadata is declared in `compatibility.json`.
 
 <!-- BEGIN:COMPATIBILITY_METADATA -->
+
 ```json
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.2.0",
-  "contract_version": "2.0",
+  "version": "2.2.1",
+  "contract_version": "2.2",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
   },
   "public_contract": {
     "client": "AgeDecisionClient",
     "metadata_endpoint": "/version",
-    "decision_values": [
-      "allow",
-      "deny"
-    ],
+    "decision_values": ["allow", "deny"],
     "score_field": "cred_global_score",
     "estimated_age_exposed": false,
     "raw_age_confidence_exposed": false,
@@ -125,6 +189,7 @@ Compatibility metadata is declared in `compatibility.json`.
   }
 }
 ```
+
 <!-- END:COMPATIBILITY_METADATA -->
 
 <hr>
@@ -155,53 +220,17 @@ It does not:
 
 <hr>
 
-<h2>Integration tests</h2>
+<h2>Package output</h2>
 
-Integration tests start the published Docker images for:
-
-- Age Decision Core
-- Age Decision AntiSpoof
-- Age Decision API
-
-Model files are downloaded at test runtime into Docker volumes for the downstream services.
-
-The SDK does not download, load, or manage model files.
-
-Run integration tests:
-
-```bash
-docker compose -f docker-compose.integration.yml down -v --remove-orphans
-docker compose -f docker-compose.integration.yml pull
-docker compose -f docker-compose.integration.yml up --build --abort-on-container-exit
-```
-
-<hr>
-
-<h2>Quality checks</h2>
-
-```bash
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run build
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run test
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:metadata
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run pack:check
-```
-
-Update generated documentation blocks:
-
-```bash
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run docs:generate
-```
-
-Run the complete local validation command:
-
-```bash
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run check:local
-```
-
-Prepare a release locally:
-
-```bash
-docker compose -f docker-compose.dev.yml exec age-decision-js npm run release:prepare
+```text
+dist/index.js
+dist/index.cjs
+dist/index.d.ts
+dist/index.d.cts
+project.json
+compatibility.json
+README.md
+LICENSE
 ```
 
 <hr>

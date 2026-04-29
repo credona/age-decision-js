@@ -1,6 +1,6 @@
 {
   "name": "@credona/age-decision",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "JavaScript and TypeScript SDK for Age Decision API.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -31,9 +31,12 @@
     "test:unit": "vitest run tests/*.test.ts",
     "check:metadata": "node scripts/metadata/check-project-metadata.mjs && node scripts/metadata/check-compatibility-metadata.mjs",
     "check:release": "node scripts/metadata/check-release-metadata.mjs",
+    "integration:sync": "node scripts/integration/update-compose-integration.mjs",
     "docs:generate": "node scripts/docs/update-compatibility.mjs && node scripts/docs/update-readme-examples.mjs && node scripts/docs/update-docs-usage.mjs && node scripts/docs/update-docs-types.mjs && node scripts/docs/update-docs-compatibility.mjs && node scripts/docs/update-contributing.mjs",
     "check:all": "scripts/ci/check_all.sh",
     "check:local": "scripts/dev/check_local.sh",
+    "check:docker": "scripts/ci/check_all_docker.sh",
+    "fix:docker": "scripts/ci/fix_all_docker.sh",
     "release:prepare": "scripts/ci/release_prepare.sh"
   },
   "keywords": [

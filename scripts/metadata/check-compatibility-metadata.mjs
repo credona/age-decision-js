@@ -5,7 +5,9 @@ const compatibility = JSON.parse(fs.readFileSync("compatibility.json", "utf8"));
 
 function assertEqual(name, actual, expected) {
   if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-    throw new Error(`${name} mismatch: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+    throw new Error(
+      `${name} mismatch: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,
+    );
   }
 }
 
@@ -18,27 +20,49 @@ function assertFalse(name, value) {
 assertEqual("service", compatibility.service, project.service_name);
 assertEqual("package", compatibility.package, project.package_name);
 assertEqual("version", compatibility.version, project.version);
-assertEqual("contract_version", compatibility.contract_version, project.contract_version);
+assertEqual(
+  "contract_version",
+  compatibility.contract_version,
+  project.contract_version,
+);
 
 const publicContract = compatibility.public_contract;
 
 assertEqual("client", publicContract.client, "AgeDecisionClient");
 assertEqual("metadata_endpoint", publicContract.metadata_endpoint, "/version");
-assertEqual("decision_values", publicContract.decision_values, ["allow", "deny"]);
+assertEqual("decision_values", publicContract.decision_values, [
+  "allow",
+  "deny",
+]);
 assertEqual("score_field", publicContract.score_field, "cred_global_score");
 
 assertFalse("estimated_age_exposed", publicContract.estimated_age_exposed);
-assertFalse("raw_age_confidence_exposed", publicContract.raw_age_confidence_exposed);
-assertFalse("raw_liveness_confidence_exposed", publicContract.raw_liveness_confidence_exposed);
-assertFalse("legacy_cred_score_exposed", publicContract.legacy_cred_score_exposed);
+assertFalse(
+  "raw_age_confidence_exposed",
+  publicContract.raw_age_confidence_exposed,
+);
+assertFalse(
+  "raw_liveness_confidence_exposed",
+  publicContract.raw_liveness_confidence_exposed,
+);
+assertFalse(
+  "legacy_cred_score_exposed",
+  publicContract.legacy_cred_score_exposed,
+);
 
-for (const [repository, versionRange] of Object.entries(compatibility.compatible_with)) {
+for (const [repository, versionRange] of Object.entries(
+  compatibility.compatible_with,
+)) {
   if (!repository.startsWith("age-decision-")) {
-    throw new Error(`Invalid repository name in compatibility matrix: ${repository}`);
+    throw new Error(
+      `Invalid repository name in compatibility matrix: ${repository}`,
+    );
   }
 
   if (!versionRange.startsWith(">=") || !versionRange.includes("<")) {
-    throw new Error(`Invalid compatibility range for ${repository}: ${versionRange}`);
+    throw new Error(
+      `Invalid compatibility range for ${repository}: ${versionRange}`,
+    );
   }
 }
 

@@ -24,4 +24,7 @@ const compatibility = {
   },
 };
 
-fs.writeFileSync("compatibility.json", `${JSON.stringify(compatibility, null, 2)}\n`);
+fs.writeFileSync(
+  "compatibility.json",
+  `${JSON.stringify(compatibility, null, 2)}\n`,
+);
