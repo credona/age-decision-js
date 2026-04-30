@@ -3,6 +3,7 @@ tests
 .github
 .vscode
 .idea
+.cursor
 
 Dockerfile.dev
 docker-compose.dev.yml

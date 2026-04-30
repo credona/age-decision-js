@@ -172,7 +172,7 @@ interface ZkProofMetadataResponse {
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "contract_version": "2.2",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
@@ -186,9 +186,9 @@ interface ZkProofMetadataResponse {
     }
   },
   "integration": {
-    "age-decision-core": "2.2.1",
-    "age-decision-antispoof": "2.2.1",
-    "age-decision-api": "2.2.1"
+    "age-decision-core": "2.2.2",
+    "age-decision-antispoof": "2.2.2",
+    "age-decision-api": "2.2.2"
   }
 }
 ```
@@ -205,7 +205,7 @@ interface ZkProofMetadataResponse {
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "contract_version": "2.2",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"

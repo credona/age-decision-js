@@ -52,7 +52,7 @@ client.verify()
 
 <h2>Compatible API line</h2>
 
-The SDK v2.2.1 targets Age Decision API v2.x.
+The SDK v2.2.2 targets Age Decision API v2.x.
 
 The SDK expects the API to expose:
 
@@ -160,7 +160,7 @@ Generated view:
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "contract_version": "2.2",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
@@ -174,9 +174,9 @@ Generated view:
     }
   },
   "integration": {
-    "age-decision-core": "2.2.1",
-    "age-decision-antispoof": "2.2.1",
-    "age-decision-api": "2.2.1"
+    "age-decision-core": "2.2.2",
+    "age-decision-antispoof": "2.2.2",
+    "age-decision-api": "2.2.2"
   }
 }
 ```
@@ -203,7 +203,7 @@ Generated view:
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "contract_version": "2.2",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
@@ -332,8 +332,8 @@ On tag release, CI verifies that the Git tag matches the version declared in `pr
 Example:
 
 ```text
-project.json version: 2.2.1
-expected Git tag: v2.2.1
+project.json version: 2.2.2
+expected Git tag: v2.2.2
 ```
 
 A mismatched tag must fail the release or publish workflow.

@@ -4,6 +4,15 @@ This changelog tracks changes specific to Age Decision JS SDK.
 
 Global project direction is tracked in the central Age Decision repository.
 
+<h2>2.2.2</h2>
+
+<ul>
+  <li>Npm publish workflow remains tag-only (<code>v*.*.*</code>).</li>
+  <li>Release workflow builds GitHub release description from the matching <code>CHANGELOG.md</code> section.</li>
+  <li>Release workflow validates that the Git tag matches the <code>project.json</code> version.</li>
+  <li>Updated <code>tsconfig.json</code> for TypeScript 6 declaration emit compatibility.</li>
+</ul>
+
 <hr>
 
 <h2>2.2.1</h2>
