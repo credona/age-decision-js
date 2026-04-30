@@ -15,7 +15,7 @@ function replaceBlock(content, blockName, payload) {
   const end = `<!-- END:${blockName} -->`;
 
   if (!content.includes(start) || !content.includes(end)) {
-    throw new Error(`Missing generated block markers for ${blockName}`);
+    return content;
   }
 
   const before = content.split(start)[0];

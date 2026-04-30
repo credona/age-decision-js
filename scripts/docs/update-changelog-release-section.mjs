@@ -3,13 +3,16 @@ import fs from "node:fs";
 const CHANGELOG_PATH = "CHANGELOG.md";
 const ANCHOR =
   "Global project direction is tracked in the central Age Decision repository.\n\n";
-const MANAGED_VERSION = "2.2.2";
+const MANAGED_VERSION = "2.2.3";
 
 const CHANGELOG_SECTION_ITEMS = [
-  "Npm publish workflow remains tag-only (<code>v*.*.*</code>).",
-  "Release workflow builds GitHub release description from the matching <code>CHANGELOG.md</code> section.",
-  "Release workflow validates that the Git tag matches the <code>project.json</code> version.",
-  "Updated <code>tsconfig.json</code> for TypeScript 6 declaration emit compatibility.",
+  "Enforced documentation boundaries between global and repository-specific docs.",
+  "Removed cross-repository documentation duplication.",
+  "Normalized repository <code>README.md</code> scope.",
+  "Normalized <code>CONTRIBUTING.md</code> to local workflows.",
+  "Normalized <code>SECURITY.md</code> and <code>COMPATIBILITY.md</code> scope.",
+  "Enforced absolute GitHub links only for cross-repository documentation references.",
+  "Centralized global documentation in <code>age-decision</code>.",
 ];
 
 function escapeRegex(s) {

@@ -1,6 +1,6 @@
 {
   "name": "@credona/age-decision",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "JavaScript and TypeScript SDK for Age Decision API.",
   "type": "module",
   "main": "./dist/index.cjs",

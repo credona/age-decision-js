@@ -2,11 +2,8 @@
 
 This repository contains the TypeScript and JavaScript SDK.
 
-For global contribution rules, see:
-
-```text
+Global contributing policy:
 https://github.com/credona/age-decision/blob/main/CONTRIBUTING.md
-```
 
 <hr>
 
@@ -148,8 +145,8 @@ Release tags must match the version declared in `project.json`.
 Example:
 
 ```text
-project.json version: 2.2.2
-Git tag: v2.2.2
+project.json version: 2.2.3
+Git tag: v2.2.3
 ```
 
 <hr>

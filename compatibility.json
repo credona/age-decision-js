@@ -1,7 +1,7 @@
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "contract_version": "2.2",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
