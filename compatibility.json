@@ -9,7 +9,10 @@
   "public_contract": {
     "client": "AgeDecisionClient",
     "metadata_endpoint": "/version",
-    "decision_values": ["allow", "deny"],
+    "decision_values": [
+      "allow",
+      "deny"
+    ],
     "score_field": "cred_global_score",
     "estimated_age_exposed": false,
     "raw_age_confidence_exposed": false,

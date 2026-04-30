@@ -4,6 +4,9 @@ This document describes compatibility expectations for Age Decision JS SDK.
 
 The SDK consumes the public Age Decision API contract and exposes TypeScript types for downstream applications.
 
+For ecosystem-wide compatibility policy, see:
+https://github.com/credona/age-decision/blob/main/COMPATIBILITY.md
+
 <hr>
 
 <h2>Scope</h2>
