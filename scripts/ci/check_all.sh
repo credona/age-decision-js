@@ -15,6 +15,7 @@ mkdir -p "$TMP_DIR/docs"
 cp docs/usage.md "$TMP_DIR/docs/usage.md"
 cp docs/types.md "$TMP_DIR/docs/types.md"
 cp docs/compatibility.md "$TMP_DIR/docs/compatibility.md"
+cp CHANGELOG.md "$TMP_DIR/CHANGELOG.md"
 
 npm run docs:generate
 node scripts/integration/update-compose-integration.mjs
@@ -27,6 +28,7 @@ cmp -s package.json "$TMP_DIR/package.json" || { echo "Generated file is outdate
 cmp -s docs/usage.md "$TMP_DIR/docs/usage.md" || { echo "Generated file is outdated: docs/usage.md"; exit 1; }
 cmp -s docs/types.md "$TMP_DIR/docs/types.md" || { echo "Generated file is outdated: docs/types.md"; exit 1; }
 cmp -s docs/compatibility.md "$TMP_DIR/docs/compatibility.md" || { echo "Generated file is outdated: docs/compatibility.md"; exit 1; }
+cmp -s CHANGELOG.md "$TMP_DIR/CHANGELOG.md" || { echo "Generated file is outdated: CHANGELOG.md"; exit 1; }
 
 rm -rf "$TMP_DIR"
 

@@ -1,6 +1,7 @@
 .git
 .github
 .vscode
+.cursor
 .idea
 
 node_modules

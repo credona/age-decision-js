@@ -137,7 +137,7 @@ Project metadata is declared in `project.json`.
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "contract_version": "2.2",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
@@ -151,9 +151,9 @@ Project metadata is declared in `project.json`.
     }
   },
   "integration": {
-    "age-decision-core": "2.2.1",
-    "age-decision-antispoof": "2.2.1",
-    "age-decision-api": "2.2.1"
+    "age-decision-core": "2.2.2",
+    "age-decision-antispoof": "2.2.2",
+    "age-decision-api": "2.2.2"
   }
 }
 ```
@@ -172,7 +172,7 @@ Compatibility metadata is declared in `compatibility.json`.
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "contract_version": "2.2",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
