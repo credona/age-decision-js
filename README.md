@@ -23,6 +23,8 @@ It does not perform age estimation or anti-spoofing locally.
 
 It does not load, download, store, or redistribute machine learning model files.
 
+Version 2.3.0 adds <code>StandardizedApiError</code> for gateway <code>ErrorResponse</code> failures: HTTP <code>400</code> and <code>502</code> standardized envelopes are mapped from <code>AgeDecisionClient</code> using strict privacy-first validation; all other failures stay on <code>HttpError</code> (timeouts unchanged).
+
 <hr>
 
 <h2>When to use this repository</h2>
@@ -100,7 +102,7 @@ This SDK:
 - handles request tracing
 - handles timeouts
 - handles retries
-- exposes HTTP errors
+- exposes HTTP errors (<code>HttpError</code>, <code>StandardizedApiError</code>)
 - exposes typed project version metadata
 
 It does not:

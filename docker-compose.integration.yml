@@ -1,20 +1,20 @@
 services:
   core-models:
-    image: ghcr.io/credona/age-decision-core:v2.2.3
+    image: ghcr.io/credona/age-decision-core:v2.2.2
     working_dir: /app
     command: python scripts/models/download_models.py
     volumes:
       - core-models:/app/models
 
   antispoof-models:
-    image: ghcr.io/credona/age-decision-antispoof:v2.2.3
+    image: ghcr.io/credona/age-decision-antispoof:v2.2.2
     working_dir: /app
     command: python scripts/models/download_models.py
     volumes:
       - antispoof-models:/app/antispoof/models
 
   age-decision-core:
-    image: ghcr.io/credona/age-decision-core:v2.2.3
+    image: ghcr.io/credona/age-decision-core:v2.2.2
     depends_on:
       core-models:
         condition: service_completed_successfully
@@ -22,7 +22,7 @@ services:
       - core-models:/app/models
 
   age-decision-antispoof:
-    image: ghcr.io/credona/age-decision-antispoof:v2.2.3
+    image: ghcr.io/credona/age-decision-antispoof:v2.2.2
     depends_on:
       antispoof-models:
         condition: service_completed_successfully
@@ -30,7 +30,7 @@ services:
       - antispoof-models:/app/antispoof/models
 
   age-decision-api:
-    image: ghcr.io/credona/age-decision-api:v2.2.3
+    image: ghcr.io/credona/age-decision-api:v2.2.2
     depends_on:
       - age-decision-core
       - age-decision-antispoof

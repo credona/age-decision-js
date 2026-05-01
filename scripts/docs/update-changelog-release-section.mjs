@@ -3,16 +3,14 @@ import fs from "node:fs";
 const CHANGELOG_PATH = "CHANGELOG.md";
 const ANCHOR =
   "Global project direction is tracked in the central Age Decision repository.\n\n";
-const MANAGED_VERSION = "2.2.3";
+const MANAGED_VERSION = "2.3.0";
 
 const CHANGELOG_SECTION_ITEMS = [
-  "Enforced documentation boundaries between global and repository-specific docs.",
-  "Removed cross-repository documentation duplication.",
-  "Normalized repository <code>README.md</code> scope.",
-  "Normalized <code>CONTRIBUTING.md</code> to local workflows.",
-  "Normalized <code>SECURITY.md</code> and <code>COMPATIBILITY.md</code> scope.",
-  "Enforced absolute GitHub links only for cross-repository documentation references.",
-  "Centralized global documentation in <code>age-decision</code>.",
+  "Added typed SDK error mapping for standardized API <code>ErrorResponse</code> in <code>AgeDecisionClient</code>.",
+  "Introduced <code>StandardizedApiError</code> exposing <code>status</code>, <code>code</code>, <code>requestId</code>, <code>correlationId</code>, <code>body</code>, and stable <code>message</code>.",
+  "Mapped HTTP <code>400</code> and HTTP <code>502</code> standardized gateway failures to <code>StandardizedApiError</code>.",
+  "Left malformed and non-standard error bodies falling back to <code>HttpError</code>.",
+  "Kept privacy-first strict envelope validation in <code>mapStandardizedApiError</code> so forbidden fields are not admitted as typed properties.",
 ];
 
 function escapeRegex(s) {

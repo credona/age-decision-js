@@ -50,11 +50,30 @@ export interface ErrorDetail {
   message: string;
 }
 
+/** Standard gateway JSON failure shape (privacy-first envelope). */
 export interface ErrorResponse {
   request_id: string;
   correlation_id: string;
   error: ErrorDetail;
 }
+
+/**
+ * Root keys permitted on standardized API failures (reject anything else).
+ * Used together with HTTP status when mapping standardized gateway errors (v2.3+ SDK).
+ */
+export const STANDARDIZED_GATEWAY_ERROR_KEYS = Object.freeze([
+  "request_id",
+  "correlation_id",
+  "error",
+]);
+
+/**
+ * Keys permitted inside `error` for standardized failures.
+ */
+export const STANDARDIZED_GATEWAY_ERROR_DETAIL_KEYS = Object.freeze([
+  "code",
+  "message",
+]);
 
 export interface ThresholdPolicy {
   type: "minimum_age";

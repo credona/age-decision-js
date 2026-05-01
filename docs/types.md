@@ -107,6 +107,52 @@ interface VerifyResponse {
 
 <hr>
 
+<h2>ErrorResponse</h2>
+
+```ts
+interface ErrorDetail {
+  code: string;
+  message: string;
+}
+
+interface ErrorResponse {
+  request_id: string;
+  correlation_id: string;
+  error: ErrorDetail;
+}
+```
+
+<hr>
+
+<h2>StandardizedApiError</h2>
+
+```ts
+class StandardizedApiError extends AgeDecisionError {
+  readonly status: number;
+  readonly code: string;
+  readonly requestId: string;
+  readonly correlationId: string;
+  readonly body: string;
+}
+```
+
+`message` is exposed through the standard `Error` prototype (`error.message`), matching gateway `error.message`.
+
+<hr>
+
+<h2>mapStandardizedApiError</h2>
+
+```ts
+declare function mapStandardizedApiError(
+  status: number,
+  rawBodyText: string,
+): StandardizedApiError | null;
+```
+
+Parses HTTP error bodies strictly: only canonical `request_id`, `correlation_id`, and `error: { code, message }` (no extra keys). Returns `null` when the envelope is non-standard so callers retain `HttpError` behavior.
+
+<hr>
+
 <h2>AgeCheckResponse</h2>
 
 ```ts
@@ -172,8 +218,8 @@ interface ZkProofMetadataResponse {
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.2.3",
-  "contract_version": "2.2",
+  "version": "2.3.0",
+  "contract_version": "2.3",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
   "license": "Apache-2.0",
@@ -205,8 +251,8 @@ interface ZkProofMetadataResponse {
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.2.3",
-  "contract_version": "2.2",
+  "version": "2.3.0",
+  "contract_version": "2.3",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
   },
