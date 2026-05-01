@@ -45,6 +45,9 @@ Version 2.3.0 adds <code>StandardizedApiError</code> for gateway <code>ErrorResp
 
 - Repository: https://github.com/credona/age-decision-js
 - Usage: docs/usage.md
+- Deprecation policy: docs/deprecation-policy.md
+- Error model: docs/error-model.md
+- Status contract: docs/status-contract.md
 - API types: docs/types.md
 - Compatibility: docs/compatibility.md
 - Security: SECURITY.md

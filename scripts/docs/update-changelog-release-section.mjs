@@ -14,6 +14,9 @@ const CHANGELOG_SECTION_ITEMS = [
   "Mapped HTTP <code>400</code> and HTTP <code>502</code> standardized gateway failures to <code>StandardizedApiError</code>.",
   "Left malformed and non-standard error bodies falling back to <code>HttpError</code>.",
   "Kept privacy-first strict envelope validation in <code>mapStandardizedApiError</code> so forbidden fields are not admitted as typed properties.",
+  "Documented public SDK deprecation rules in <code>docs/deprecation-policy.md</code>.",
+  "Documented the SDK error model in <code>docs/error-model.md</code>.",
+  "Documented stable status client methods and <code>contract_version</code> in <code>docs/status-contract.md</code>.",
 ];
 
 function main() {

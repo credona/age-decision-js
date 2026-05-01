@@ -12,6 +12,9 @@ Global project direction is tracked in the central Age Decision repository.
   <li>Mapped HTTP <code>400</code> and HTTP <code>502</code> standardized gateway failures to <code>StandardizedApiError</code>.</li>
   <li>Left malformed and non-standard error bodies falling back to <code>HttpError</code>.</li>
   <li>Kept privacy-first strict envelope validation in <code>mapStandardizedApiError</code> so forbidden fields are not admitted as typed properties.</li>
+  <li>Documented public SDK deprecation rules in <code>docs/deprecation-policy.md</code>.</li>
+  <li>Documented the SDK error model in <code>docs/error-model.md</code>.</li>
+  <li>Documented stable status client methods and <code>contract_version</code> in <code>docs/status-contract.md</code>.</li>
 </ul>
 
 <hr>
