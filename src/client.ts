@@ -1,4 +1,9 @@
-import { HttpError, TimeoutError } from "./errors";
+import {
+  HttpError,
+  StandardizedApiError,
+  TimeoutError,
+  mapStandardizedApiError,
+} from "./errors";
 import {
   ClientOptions,
   HealthResponse,
@@ -92,8 +97,16 @@ export class AgeDecisionClient {
       });
 
       if (!response.ok) {
-        const body = await response.text();
-        throw new HttpError(response.status, body || response.statusText, body);
+        const bodyText = await response.text();
+        const mapped = mapStandardizedApiError(response.status, bodyText);
+        if (mapped) {
+          throw mapped;
+        }
+        throw new HttpError(
+          response.status,
+          bodyText || response.statusText,
+          bodyText,
+        );
       }
 
       return (await response.json()) as T;
@@ -118,6 +131,10 @@ export class AgeDecisionClient {
     }
 
     if (error instanceof HttpError) {
+      return error.status >= 500;
+    }
+
+    if (error instanceof StandardizedApiError) {
       return error.status >= 500;
     }
 

@@ -1,7 +1,12 @@
 import fs from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AgeDecisionClient } from "../src/client";
-import { HttpError, TimeoutError } from "../src/errors";
+import {
+  HttpError,
+  StandardizedApiError,
+  TimeoutError,
+  mapStandardizedApiError,
+} from "../src/errors";
 import { MOCK_API_BASE_URL } from "./constants";
 
 const project = JSON.parse(fs.readFileSync("project.json", "utf8"));
@@ -287,6 +292,131 @@ describe("AgeDecisionClient", () => {
     expect("cred_score" in result).toBe(false);
   });
 
+  it("should reject verify with StandardizedApiError when HTTP 400 envelope is standardized", async () => {
+    const rawBody = JSON.stringify({
+      request_id: "cid-req-400",
+      correlation_id: "cid-corr-400",
+      error: {
+        code: "missing_image_base64",
+        message: "Invalid request.",
+      },
+    });
+
+    const textSpy = vi.fn(async () => rawBody);
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 400,
+        statusText: "Bad Request",
+        text: textSpy,
+      }),
+    );
+
+    const client = new AgeDecisionClient({
+      baseUrl: MOCK_API_BASE_URL,
+    });
+
+    let caught: unknown;
+    try {
+      await client.verify({
+        imageBase64: "",
+        requestId: "cid-req-400",
+        correlationId: "cid-corr-400",
+      });
+    } catch (error: unknown) {
+      caught = error;
+    }
+
+    expect(caught).toBeInstanceOf(StandardizedApiError);
+    expect(caught).toMatchObject({
+      status: 400,
+      code: "missing_image_base64",
+      message: "Invalid request.",
+      requestId: "cid-req-400",
+      correlationId: "cid-corr-400",
+      body: rawBody,
+    });
+
+    expect(textSpy).toHaveBeenCalledOnce();
+  });
+
+  it("should reject verify with StandardizedApiError when HTTP 502 envelope is standardized", async () => {
+    const rawBody = JSON.stringify({
+      request_id: "cid-req-502",
+      correlation_id: "cid-corr-502",
+      error: {
+        code: "downstream_service_error",
+        message: "An upstream service error has occurred.",
+      },
+    });
+
+    const textSpy = vi.fn(async () => rawBody);
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 502,
+        statusText: "Bad Gateway",
+        text: textSpy,
+      }),
+    );
+
+    const client = new AgeDecisionClient({
+      baseUrl: MOCK_API_BASE_URL,
+    });
+
+    let caught: unknown;
+    try {
+      await client.verify({
+        imageBase64: "Zm9v",
+        requestId: "cid-req-502",
+        correlationId: "cid-corr-502",
+      });
+    } catch (error: unknown) {
+      caught = error;
+    }
+
+    expect(caught).toBeInstanceOf(StandardizedApiError);
+    expect(caught).toMatchObject({
+      name: "StandardizedApiError",
+      status: 502,
+      code: "downstream_service_error",
+      message: "An upstream service error has occurred.",
+      requestId: "cid-req-502",
+      correlationId: "cid-corr-502",
+      body: rawBody,
+    });
+
+    expect(textSpy).toHaveBeenCalledOnce();
+  });
+
+  it("should reject verify with HttpError when HTTP 400 body is not a standardized envelope", async () => {
+    const textSpy = vi.fn(async () => "Bad request");
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 400,
+        statusText: "Bad Request",
+        text: textSpy,
+      }),
+    );
+
+    const client = new AgeDecisionClient({
+      baseUrl: MOCK_API_BASE_URL,
+    });
+
+    await expect(client.verify({ imageBase64: "x" })).rejects.toBeInstanceOf(
+      HttpError,
+    );
+
+    expect(textSpy).toHaveBeenCalledOnce();
+  });
+
   it("should throw HttpError on non successful response", async () => {
     vi.stubGlobal(
       "fetch",
@@ -384,5 +514,128 @@ describe("AgeDecisionClient", () => {
     const error = await promise;
 
     expect(error).toBeInstanceOf(TimeoutError);
+  });
+});
+
+describe("mapStandardizedApiError (v2.3.0 standardized API ErrorResponse)", () => {
+  function assertForbiddenKeysAbsent(err: StandardizedApiError): void {
+    const forbidden = ["estimated_age", "confidence", "cred_score"] as const;
+
+    for (const key of forbidden) {
+      expect(Object.prototype.hasOwnProperty.call(err, key)).toBe(false);
+    }
+  }
+
+  it("maps HTTP 400 standardized envelope to StandardizedApiError", () => {
+    const raw = JSON.stringify({
+      request_id: "req-400",
+      correlation_id: "corr-400",
+      error: {
+        code: "missing_image_base64",
+        message: "Invalid request.",
+      },
+    });
+
+    const err = mapStandardizedApiError(400, raw);
+
+    expect(err).toBeInstanceOf(StandardizedApiError);
+
+    assertForbiddenKeysAbsent(err!);
+
+    expect(err!.status).toBe(400);
+    expect(err!.code).toBe("missing_image_base64");
+    expect(err!.message).toBe("Invalid request.");
+    expect(err!.requestId).toBe("req-400");
+    expect(err!.correlationId).toBe("corr-400");
+    expect(err!.body).toBe(raw);
+  });
+
+  it("maps HTTP 502 standardized envelope to StandardizedApiError", () => {
+    const raw = JSON.stringify({
+      request_id: "req-502",
+      correlation_id: "corr-502",
+      error: {
+        code: "downstream_service_error",
+        message: "An upstream service error has occurred.",
+      },
+    });
+
+    const err = mapStandardizedApiError(502, raw);
+
+    expect(err).toBeInstanceOf(StandardizedApiError);
+
+    assertForbiddenKeysAbsent(err!);
+
+    expect(err!.status).toBe(502);
+    expect(err!.code).toBe("downstream_service_error");
+    expect(err!.message).toBe("An upstream service error has occurred.");
+    expect(err!.requestId).toBe("req-502");
+    expect(err!.correlationId).toBe("corr-502");
+    expect(err!.body).toBe(raw);
+  });
+
+  it("returns null so callers can fallback to HttpError for malformed bodies", () => {
+    const cases = [
+      { status: 400 as const, body: "not-json{" },
+      { status: 400 as const, body: "{}" },
+      { status: 502 as const, body: "[]" },
+      {
+        status: 400 as const,
+        body: JSON.stringify({
+          request_id: "a",
+          correlation_id: "b",
+          error: {},
+        }),
+      },
+    ];
+
+    for (const { status, body } of cases) {
+      expect(mapStandardizedApiError(status, body)).toBeNull();
+
+      const httpErr = new HttpError(status, body || "Error", body);
+      expect(httpErr).toBeInstanceOf(HttpError);
+      expect(httpErr.status).toBe(status);
+      expect(httpErr.body).toBe(body);
+    }
+  });
+
+  it("rejects envelopes with forbidden or non-standard keys (privacy contract)", () => {
+    const withTopLevelLeak = JSON.stringify({
+      request_id: "r",
+      correlation_id: "c",
+      error: {
+        code: "x",
+        message: "Invalid request.",
+      },
+      estimated_age: 21,
+    });
+
+    expect(mapStandardizedApiError(400, withTopLevelLeak)).toBeNull();
+
+    const withNestedLeak = JSON.stringify({
+      request_id: "r",
+      correlation_id: "c",
+      error: {
+        code: "x",
+        message: "Invalid request.",
+        confidence: 0.9,
+      },
+    });
+
+    expect(mapStandardizedApiError(400, withNestedLeak)).toBeNull();
+  });
+
+  it("does not map non-400/502 even when envelope shape matches", () => {
+    const raw = JSON.stringify({
+      request_id: "r",
+      correlation_id: "c",
+      error: {
+        code: "x",
+        message: "Invalid request.",
+      },
+    });
+
+    expect(mapStandardizedApiError(401, raw)).toBeNull();
+    expect(mapStandardizedApiError(503, raw)).toBeNull();
   });
 });

@@ -107,6 +107,7 @@ X-Correlation-ID
 import {
   AgeDecisionClient,
   HttpError,
+  StandardizedApiError,
   TimeoutError,
 } from "@credona/age-decision";
 
@@ -127,6 +128,12 @@ try {
     console.error("Request timeout:", error.timeout);
   }
 
+  if (error instanceof StandardizedApiError) {
+    console.error("API contract error:", error.status, error.code);
+    console.error(error.message, error.requestId, error.correlationId);
+    console.error(error.body);
+  }
+
   if (error instanceof HttpError) {
     console.error("HTTP error:", error.status);
     console.error(error.body);
@@ -135,6 +142,8 @@ try {
   throw error;
 }
 ```
+
+For lower-level parsing of a response body outside the client, the SDK exports <code>mapStandardizedApiError(status, rawBodyText)</code>, which returns <code>null</code> when the body is not a strict standardized gateway envelope (privacy-first key allowlist).
 
 <hr>
 
@@ -204,8 +213,8 @@ Generated view:
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.2.3",
-  "contract_version": "2.2",
+  "version": "2.3.0",
+  "contract_version": "2.3",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
   "license": "Apache-2.0",
@@ -245,8 +254,8 @@ Generated view:
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.2.3",
-  "contract_version": "2.2",
+  "version": "2.3.0",
+  "contract_version": "2.3",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
   },
