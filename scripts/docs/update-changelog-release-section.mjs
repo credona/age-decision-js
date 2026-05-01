@@ -4,6 +4,7 @@ const CHANGELOG_PATH = "CHANGELOG.md";
 const ANCHOR =
   "Global project direction is tracked in the central Age Decision repository.\n\n";
 const MANAGED_VERSION = "2.3.0";
+const VERSION_SECTION_HEADING_RE = /<h2>\d+\.\d+\.\d+<\/h2>/;
 
 const CHANGELOG_SECTION_ITEMS = [
   "Added typed SDK error mapping for standardized API <code>ErrorResponse</code> in <code>AgeDecisionClient</code>.",
@@ -41,10 +42,15 @@ function main() {
   );
   if (pattern.test(text)) {
     text = text.replace(pattern, newBlock);
-  } else if (text.includes(ANCHOR)) {
-    text = text.replace(ANCHOR, ANCHOR + newBlock);
   } else {
-    throw new Error("CHANGELOG.md missing expected anchor paragraph");
+    const m = text.match(VERSION_SECTION_HEADING_RE);
+    if (m && m.index !== undefined) {
+      text = text.slice(0, m.index) + newBlock + text.slice(m.index);
+    } else if (text.includes(ANCHOR)) {
+      text = text.replace(ANCHOR, ANCHOR + newBlock, 1);
+    } else {
+      throw new Error("CHANGELOG.md missing expected anchor paragraph");
+    }
   }
   fs.writeFileSync(CHANGELOG_PATH, text, "utf8");
 }
