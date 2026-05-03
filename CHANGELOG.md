@@ -4,6 +4,22 @@ This changelog tracks changes specific to Age Decision JS SDK.
 
 Global project direction is tracked in the central Age Decision repository.
 
+<h2>2.5.0</h2>
+
+<ul>
+  <li>Aligned SDK public typing with the API v2.5 public contract.</li>
+  <li>Kept responseFilter as the only unsafe payload casting boundary.</li>
+  <li>Added stricter response filtering for public decisions, statuses, and score bounds.</li>
+  <li>Preserved SDK client behavior without adding business scoring or decision logic.</li>
+  <li>Kept unsupported input types forwarded deterministically to the API.</li>
+  <li>Updated generated SDK usage, types, compatibility, and README examples.</li>
+  <li>Updated package, project, compatibility, and lockfile metadata to 2.5.0.</li>
+  <li>Preserved privacy-first stripping of raw, confidence, estimated age, and downstream fields.</li>
+  <li>Validated the release through Docker build and unit tests.</li>
+</ul>
+
+<hr>
+
 <h2>2.4.0</h2>
 
 <ul>

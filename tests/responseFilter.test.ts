@@ -61,4 +61,73 @@ describe("filterVerifyResponse", () => {
     expect(serialized).not.toContain('"raw":');
     expect(serialized).not.toContain("downstream_response");
   });
+
+  it("should clamp public scores to public normalized bounds", () => {
+    const result = filterVerifyResponse({
+      request_id: "req-123",
+      correlation_id: "corr-456",
+      decision: "allow",
+      cred_global_score: 2,
+      decision_check: {
+        status: "passed",
+        decision: "allow",
+        threshold: {
+          type: "minimum_age",
+          value: 18,
+          source: "default",
+          majority_country: null,
+        },
+        cred_decision_score: -1,
+      },
+      spoof_check: {
+        status: "passed",
+        decision: "allow",
+        is_real: true,
+        spoof_detected: false,
+        cred_antispoof_score: 1.5,
+      },
+      privacy: {},
+      zk_proof: {},
+      reason: null,
+    });
+
+    expect(result.cred_global_score).toBe(1);
+    expect(result.decision_check.cred_decision_score).toBe(0);
+    expect(result.spoof_check.cred_antispoof_score).toBe(1);
+  });
+
+  it("should normalize invalid enum-like values to safe public defaults", () => {
+    const result = filterVerifyResponse({
+      request_id: "req-123",
+      correlation_id: "corr-456",
+      decision: "internal",
+      cred_global_score: 0.5,
+      decision_check: {
+        status: "internal",
+        decision: "internal",
+        threshold: {
+          type: "internal",
+          value: 18,
+          source: "internal",
+          majority_country: null,
+        },
+        cred_decision_score: 0.5,
+      },
+      spoof_check: {
+        status: "internal",
+        decision: "internal",
+        cred_antispoof_score: 0.5,
+      },
+      privacy: {},
+      zk_proof: {},
+    });
+
+    expect(result.decision).toBe("deny");
+    expect(result.decision_check.status).toBe("unknown");
+    expect(result.decision_check.decision).toBe("deny");
+    expect(result.decision_check.threshold.type).toBe("minimum_age");
+    expect(result.decision_check.threshold.source).toBe("default");
+    expect(result.spoof_check.status).toBe("unknown");
+    expect(result.spoof_check.decision).toBe("deny");
+  });
 });
