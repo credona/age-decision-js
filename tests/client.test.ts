@@ -92,7 +92,7 @@ describe("AgeDecisionClient", () => {
           correlation_id: "corr-001",
           decision: "allow",
           cred_global_score: 0.8,
-          age_check: {
+          decision_check: {
             status: "passed",
             decision: "allow",
             threshold: {
@@ -103,7 +103,7 @@ describe("AgeDecisionClient", () => {
             },
             cred_decision_score: 0.8,
           },
-          liveness_check: {
+          spoof_check: {
             status: "passed",
             decision: "allow",
             is_real: true,
@@ -151,7 +151,7 @@ describe("AgeDecisionClient", () => {
         correlation_id: "corr-456",
         decision: "allow",
         cred_global_score: 1,
-        age_check: {
+        decision_check: {
           status: "passed",
           decision: "allow",
           threshold: {
@@ -162,7 +162,7 @@ describe("AgeDecisionClient", () => {
           },
           cred_decision_score: 1,
         },
-        liveness_check: {
+        spoof_check: {
           status: "passed",
           decision: "allow",
           is_real: true,
@@ -244,7 +244,7 @@ describe("AgeDecisionClient", () => {
           correlation_id: "r",
           decision: "allow",
           cred_global_score: 0.9,
-          age_check: {
+          decision_check: {
             status: "passed",
             decision: "allow",
             threshold: {
@@ -255,7 +255,7 @@ describe("AgeDecisionClient", () => {
             },
             cred_decision_score: 0.9,
           },
-          liveness_check: {
+          spoof_check: {
             status: "passed",
             decision: "allow",
             is_real: true,

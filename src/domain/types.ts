@@ -1,3 +1,5 @@
+import type { CheckStatus, PublicDecision } from "./constants";
+
 export interface ClientOptions {
   baseUrl: string;
   timeout?: number;
@@ -82,17 +84,17 @@ export interface ThresholdPolicy {
   majority_country?: string | null;
 }
 
-export interface AgeCheckResponse {
-  status: "passed" | "failed" | "unknown" | string;
-  decision: "allow" | "deny" | string;
+export interface DecisionCheckResponse {
+  status: CheckStatus;
+  decision: PublicDecision;
   reason?: string | null;
   threshold: ThresholdPolicy;
   cred_decision_score: number;
 }
 
-export interface LivenessCheckResponse {
-  status: "passed" | "failed" | "unknown" | string;
-  decision: "allow" | "deny" | string;
+export interface SpoofCheckResponse {
+  status: CheckStatus;
+  decision: PublicDecision;
   reason?: string | null;
   is_real?: boolean | null;
   spoof_detected?: boolean | null;
@@ -117,10 +119,10 @@ export interface ZkProofMetadataResponse {
 export interface VerifyResponse {
   request_id: string;
   correlation_id: string;
-  decision: "allow" | "deny" | string;
+  decision: PublicDecision;
   cred_global_score: number;
-  age_check: AgeCheckResponse;
-  liveness_check: LivenessCheckResponse;
+  decision_check: DecisionCheckResponse;
+  spoof_check: SpoofCheckResponse;
   privacy: PrivacyMetadataResponse;
   zk_proof: ZkProofMetadataResponse;
   reason?: string | null;

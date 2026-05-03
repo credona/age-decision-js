@@ -9,8 +9,12 @@ Global project direction is tracked in the central Age Decision repository.
 <ul>
   <li>Introduced SDK application/domain structure for v2.4.0 alignment.</li>
   <li>Added public verify response filtering before returning SDK responses.</li>
+  <li>Renamed age and liveness response types to decision check and spoof check.</li>
+  <li>Centralized public decision and check status constants using const-object unions.</li>
+  <li>Updated SDK documentation to use neutral public terminology.</li>
   <li>Kept SDK public contract stable while aligning with API orchestration boundaries.</li>
   <li>Preserved standardized error mapping and privacy-first response handling.</li>
+  <li>Validated the refactor with build and test checks.</li>
 </ul>
 
 <hr>

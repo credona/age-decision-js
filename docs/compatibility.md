@@ -103,8 +103,8 @@ request_id
 correlation_id
 decision
 cred_global_score
-age_check
-liveness_check
+decision_check
+spoof_check
 privacy
 zk_proof
 reason
@@ -138,9 +138,9 @@ The SDK v2 public types must not expose:
 
 ```text
 estimated age
-raw age confidence
+raw decision signal quality
 is_adult
-raw liveness confidence
+raw spoof signal quality
 spoof score
 downstream model internals
 legacy cred_score alias
@@ -218,9 +218,9 @@ Generated view:
     "metadata_endpoint": "/version",
     "decision_values": ["allow", "deny"],
     "score_field": "cred_global_score",
-    "estimated_age_exposed": false,
-    "raw_age_confidence_exposed": false,
-    "raw_liveness_confidence_exposed": false,
+    "internal_estimate_exposed": false,
+    "raw_decision_signal_quality_exposed": false,
+    "raw_spoof_signal_quality_exposed": false,
     "legacy_cred_score_exposed": false
   }
 }

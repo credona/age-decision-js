@@ -11,8 +11,12 @@ const MANAGED_VERSION = "2.4.0";
 const CHANGELOG_SECTION_ITEMS = [
   "Introduced SDK application/domain structure for v2.4.0 alignment.",
   "Added public verify response filtering before returning SDK responses.",
+  "Renamed age and liveness response types to decision check and spoof check.",
+  "Centralized public decision and check status constants using const-object unions.",
+  "Updated SDK documentation to use neutral public terminology.",
   "Kept SDK public contract stable while aligning with API orchestration boundaries.",
   "Preserved standardized error mapping and privacy-first response handling.",
+  "Validated the refactor with build and test checks.",
 ];
 
 function main() {

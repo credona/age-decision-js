@@ -36,14 +36,17 @@ assertEqual("decision_values", publicContract.decision_values, [
 ]);
 assertEqual("score_field", publicContract.score_field, "cred_global_score");
 
-assertFalse("estimated_age_exposed", publicContract.estimated_age_exposed);
 assertFalse(
-  "raw_age_confidence_exposed",
-  publicContract.raw_age_confidence_exposed,
+  "internal_estimate_exposed",
+  publicContract.internal_estimate_exposed,
 );
 assertFalse(
-  "raw_liveness_confidence_exposed",
-  publicContract.raw_liveness_confidence_exposed,
+  "raw_decision_signal_quality_exposed",
+  publicContract.raw_decision_signal_quality_exposed,
+);
+assertFalse(
+  "raw_spoof_signal_quality_exposed",
+  publicContract.raw_spoof_signal_quality_exposed,
 );
 assertFalse(
   "legacy_cred_score_exposed",
