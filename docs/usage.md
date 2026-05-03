@@ -213,8 +213,8 @@ Generated view:
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.4.0",
-  "contract_version": "2.4",
+  "version": "2.5.0",
+  "contract_version": "2.5",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
   "license": "Apache-2.0",
@@ -254,8 +254,8 @@ Generated view:
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.4.0",
-  "contract_version": "2.4",
+  "version": "2.5.0",
+  "contract_version": "2.5",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
   },

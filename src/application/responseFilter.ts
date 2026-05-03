@@ -1,4 +1,8 @@
-import type { VerifyResponse } from "../domain/types";
+import type {
+  CheckStatus,
+  PublicDecision,
+  VerifyResponse,
+} from "../domain/types";
 
 function asRecord(value: unknown): Record<string, unknown> {
   if (typeof value !== "object" || value === null) {
@@ -13,7 +17,11 @@ function asString(value: unknown): string {
 }
 
 function asNumber(value: unknown): number {
-  return typeof value === "number" ? value : 0;
+  if (typeof value !== "number" || Number.isNaN(value)) {
+    return 0;
+  }
+
+  return Math.max(0, Math.min(value, 1));
 }
 
 function asBoolean(value: unknown): boolean {
@@ -28,6 +36,32 @@ function asNullableBoolean(value: unknown): boolean | null {
   return typeof value === "boolean" ? value : null;
 }
 
+function asPublicDecision(value: unknown): PublicDecision {
+  return value === "allow" ? "allow" : "deny";
+}
+
+function asCheckStatus(value: unknown): CheckStatus {
+  if (value === "passed" || value === "failed" || value === "unknown") {
+    return value;
+  }
+
+  return "unknown";
+}
+
+function asThresholdSource(
+  value: unknown,
+): VerifyResponse["decision_check"]["threshold"]["source"] {
+  if (
+    value === "explicit" ||
+    value === "majority_country" ||
+    value === "default"
+  ) {
+    return value;
+  }
+
+  return "default";
+}
+
 export function filterVerifyResponse(payload: unknown): VerifyResponse {
   const root = asRecord(payload);
   const decisionCheck = asRecord(root.decision_check);
@@ -39,35 +73,27 @@ export function filterVerifyResponse(payload: unknown): VerifyResponse {
   return {
     request_id: asString(root.request_id),
     correlation_id: asString(root.correlation_id),
-    decision: asString(root.decision) as VerifyResponse["decision"],
+    decision: asPublicDecision(root.decision),
     cred_global_score: asNumber(root.cred_global_score),
     decision_check: {
-      status: asString(
-        decisionCheck.status,
-      ) as VerifyResponse["decision_check"]["status"],
-      decision: asString(
-        decisionCheck.decision,
-      ) as VerifyResponse["decision_check"]["decision"],
+      status: asCheckStatus(decisionCheck.status),
+      decision: asPublicDecision(decisionCheck.decision),
       reason: asNullableString(decisionCheck.reason),
       threshold: {
-        type: asString(
-          threshold.type,
-        ) as VerifyResponse["decision_check"]["threshold"]["type"],
-        value: asNumber(threshold.value),
-        source: asString(
-          threshold.source,
-        ) as VerifyResponse["decision_check"]["threshold"]["source"],
+        type: "minimum_age",
+        value:
+          typeof threshold.value === "number" &&
+          Number.isFinite(threshold.value)
+            ? threshold.value
+            : 18,
+        source: asThresholdSource(threshold.source),
         majority_country: asNullableString(threshold.majority_country),
       },
       cred_decision_score: asNumber(decisionCheck.cred_decision_score),
     },
     spoof_check: {
-      status: asString(
-        spoofCheck.status,
-      ) as VerifyResponse["spoof_check"]["status"],
-      decision: asString(
-        spoofCheck.decision,
-      ) as VerifyResponse["spoof_check"]["decision"],
+      status: asCheckStatus(spoofCheck.status),
+      decision: asPublicDecision(spoofCheck.decision),
       reason: asNullableString(spoofCheck.reason),
       is_real: asNullableBoolean(spoofCheck.is_real),
       spoof_detected: asNullableBoolean(spoofCheck.spoof_detected),

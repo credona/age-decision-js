@@ -6,20 +6,21 @@ import {
 } from "./changelog-utils.mjs";
 
 const CHANGELOG_PATH = "CHANGELOG.md";
-const MANAGED_VERSION = "2.4.0";
+const MANAGED_VERSION = "2.5.0";
 
 const CHANGELOG_SECTION_ITEMS = [
-  "Introduced SDK application/domain structure for v2.4.0 alignment.",
-  "Added public verify response filtering before returning SDK responses.",
-  "Added strict SDK response filtering to strip unsafe downstream and internal fields.",
-  "Added public inputType support aligned with v3 multi-input preparation.",
-  "Added deterministic standardized error mapping for unsupported input types.",
-  "Renamed age and liveness response types to decision check and spoof check.",
-  "Centralized public decision and check status constants using const-object unions.",
-  "Updated SDK documentation to use neutral public terminology.",
-  "Kept SDK public contract stable while aligning with API orchestration boundaries.",
-  "Preserved standardized error mapping and privacy-first response handling.",
-  "Validated the refactor with build and test checks.",
+  "Hardened responseFilter with strict public contract allowlist enforcement.",
+  "Added hostile payload tests ensuring removal of raw, downstream_response, internal_thresholds and hidden fields.",
+  "Ensured SDK never exposes estimated_age, confidence, or internal scoring artifacts.",
+  "Aligned SDK public typing with the API v2.5 public contract.",
+  "Kept responseFilter as the only unsafe payload casting boundary.",
+  "Added stricter response filtering for public decisions, statuses, and score bounds.",
+  "Preserved SDK client behavior without adding business scoring or decision logic.",
+  "Kept unsupported input types forwarded deterministically to the API.",
+  "Updated generated SDK usage, types, compatibility, and README examples.",
+  "Updated package, project, compatibility, and lockfile metadata to 2.5.0.",
+  "Preserved privacy-first stripping of raw, confidence, estimated age, and downstream fields.",
+  "Validated the release through Docker build and unit tests.",
 ];
 
 function main() {
