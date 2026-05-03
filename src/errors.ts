@@ -1,8 +1,8 @@
-import type { ErrorResponse } from "./types";
+import type { ErrorResponse } from "./domain/types";
 import {
   STANDARDIZED_GATEWAY_ERROR_DETAIL_KEYS,
   STANDARDIZED_GATEWAY_ERROR_KEYS,
-} from "./types";
+} from "./domain/types";
 
 export class AgeDecisionError extends Error {
   constructor(message: string) {

@@ -145,8 +145,8 @@ Release tags must match the version declared in `project.json`.
 Example:
 
 ```text
-project.json version: 2.3.0
-Git tag: v2.3.0
+project.json version: 2.4.0
+Git tag: v2.4.0
 ```
 
 <hr>

@@ -1,8 +1,8 @@
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.3.0",
-  "contract_version": "2.3",
+  "version": "2.4.0",
+  "contract_version": "2.4",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
   },
@@ -11,9 +11,9 @@
     "metadata_endpoint": "/version",
     "decision_values": ["allow", "deny"],
     "score_field": "cred_global_score",
-    "estimated_age_exposed": false,
-    "raw_age_confidence_exposed": false,
-    "raw_liveness_confidence_exposed": false,
+    "internal_estimate_exposed": false,
+    "raw_decision_signal_quality_exposed": false,
+    "raw_spoof_signal_quality_exposed": false,
     "legacy_cred_score_exposed": false
   }
 }

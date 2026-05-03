@@ -57,7 +57,7 @@ client.verify()
 
 <h2>Compatible API line</h2>
 
-The SDK v2.3.0 targets Age Decision API v2.x.
+The SDK v2.4.0 targets Age Decision API v2.x.
 
 The SDK expects the API to expose:
 
@@ -103,8 +103,8 @@ request_id
 correlation_id
 decision
 cred_global_score
-age_check
-liveness_check
+decision_check
+spoof_check
 privacy
 zk_proof
 reason
@@ -138,9 +138,9 @@ The SDK v2 public types must not expose:
 
 ```text
 estimated age
-raw age confidence
+raw decision signal quality
 is_adult
-raw liveness confidence
+raw spoof signal quality
 spoof score
 downstream model internals
 legacy cred_score alias
@@ -165,8 +165,8 @@ Generated view:
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.3.0",
-  "contract_version": "2.3",
+  "version": "2.4.0",
+  "contract_version": "2.4",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
   "license": "Apache-2.0",
@@ -208,8 +208,8 @@ Generated view:
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.3.0",
-  "contract_version": "2.3",
+  "version": "2.4.0",
+  "contract_version": "2.4",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
   },
@@ -218,9 +218,9 @@ Generated view:
     "metadata_endpoint": "/version",
     "decision_values": ["allow", "deny"],
     "score_field": "cred_global_score",
-    "estimated_age_exposed": false,
-    "raw_age_confidence_exposed": false,
-    "raw_liveness_confidence_exposed": false,
+    "internal_estimate_exposed": false,
+    "raw_decision_signal_quality_exposed": false,
+    "raw_spoof_signal_quality_exposed": false,
     "legacy_cred_score_exposed": false
   }
 }
@@ -337,8 +337,8 @@ On tag release, CI verifies that the Git tag matches the version declared in `pr
 Example:
 
 ```text
-project.json version: 2.3.0
-expected Git tag: v2.3.0
+project.json version: 2.4.0
+expected Git tag: v2.4.0
 ```
 
 A mismatched tag must fail the release or publish workflow.

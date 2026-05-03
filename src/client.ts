@@ -11,7 +11,8 @@ import {
   ReadyResponse,
   VerifyRequest,
   VerifyResponse,
-} from "./types";
+} from "./domain/types";
+import { filterVerifyResponse } from "./application/responseFilter";
 import { generateId, sleep } from "./utils";
 
 export class AgeDecisionClient {
@@ -50,6 +51,7 @@ export class AgeDecisionClient {
     const correlationId = input.correlationId ?? requestId;
 
     const body = {
+      input_type: input.inputType ?? "image",
       image_base64: input.imageBase64,
       age_threshold: input.ageThreshold,
       majority_country: input.majorityCountry,
@@ -63,7 +65,7 @@ export class AgeDecisionClient {
         "X-Correlation-ID": correlationId,
       },
       body: JSON.stringify(body),
-    });
+    }).then(filterVerifyResponse);
   }
 
   private async request<T>(path: string, init: RequestInit): Promise<T> {

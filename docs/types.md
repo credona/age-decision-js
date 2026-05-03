@@ -97,8 +97,8 @@ interface VerifyResponse {
   correlation_id: string;
   decision: "allow" | "deny" | string;
   cred_global_score: number;
-  age_check: AgeCheckResponse;
-  liveness_check: LivenessCheckResponse;
+  decision_check: DecisionCheckResponse;
+  spoof_check: SpoofCheckResponse;
   privacy: PrivacyMetadataResponse;
   zk_proof: ZkProofMetadataResponse;
   reason?: string | null;
@@ -153,10 +153,10 @@ Parses HTTP error bodies strictly: only canonical `request_id`, `correlation_id`
 
 <hr>
 
-<h2>AgeCheckResponse</h2>
+<h2>DecisionCheckResponse</h2>
 
 ```ts
-interface AgeCheckResponse {
+interface DecisionCheckResponse {
   status: "passed" | "failed" | "unknown" | string;
   decision: "allow" | "deny" | string;
   reason?: string | null;
@@ -167,10 +167,10 @@ interface AgeCheckResponse {
 
 <hr>
 
-<h2>LivenessCheckResponse</h2>
+<h2>SpoofCheckResponse</h2>
 
 ```ts
-interface LivenessCheckResponse {
+interface SpoofCheckResponse {
   status: "passed" | "failed" | "unknown" | string;
   decision: "allow" | "deny" | string;
   reason?: string | null;
@@ -218,8 +218,8 @@ interface ZkProofMetadataResponse {
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.3.0",
-  "contract_version": "2.3",
+  "version": "2.4.0",
+  "contract_version": "2.4",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
   "license": "Apache-2.0",
@@ -251,8 +251,8 @@ interface ZkProofMetadataResponse {
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.3.0",
-  "contract_version": "2.3",
+  "version": "2.4.0",
+  "contract_version": "2.4",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
   },
@@ -261,9 +261,9 @@ interface ZkProofMetadataResponse {
     "metadata_endpoint": "/version",
     "decision_values": ["allow", "deny"],
     "score_field": "cred_global_score",
-    "estimated_age_exposed": false,
-    "raw_age_confidence_exposed": false,
-    "raw_liveness_confidence_exposed": false,
+    "internal_estimate_exposed": false,
+    "raw_decision_signal_quality_exposed": false,
+    "raw_spoof_signal_quality_exposed": false,
     "legacy_cred_score_exposed": false
   }
 }

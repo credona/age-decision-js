@@ -70,9 +70,9 @@ const result = await client.verify({
 
 console.log(result.decision);
 console.log(result.cred_global_score);
-console.log(result.age_check.cred_decision_score);
-console.log(result.age_check.threshold);
-console.log(result.liveness_check.cred_antispoof_score);
+console.log(result.decision_check.cred_decision_score);
+console.log(result.decision_check.threshold);
+console.log(result.spoof_check.cred_antispoof_score);
 ```
 
 <hr>
@@ -187,9 +187,9 @@ docker compose -f docker-compose.integration.yml down -v --remove-orphans
 The SDK v2 contract does not expose:
 
 - estimated age
-- raw age confidence
+- raw decision signal quality
 - `is_adult`
-- raw liveness confidence
+- raw spoof signal quality
 - spoof score
 - downstream model details
 - legacy `cred_score` alias
@@ -213,8 +213,8 @@ Generated view:
   "service_name": "age-decision-js",
   "package_name": "@credona/age-decision",
   "app_name": "Age Decision JS SDK",
-  "version": "2.3.0",
-  "contract_version": "2.3",
+  "version": "2.4.0",
+  "contract_version": "2.4",
   "repository": "https://github.com/credona/age-decision-js",
   "npm_package": "https://www.npmjs.com/package/@credona/age-decision",
   "license": "Apache-2.0",
@@ -254,8 +254,8 @@ Generated view:
 {
   "service": "age-decision-js",
   "package": "@credona/age-decision",
-  "version": "2.3.0",
-  "contract_version": "2.3",
+  "version": "2.4.0",
+  "contract_version": "2.4",
   "compatible_with": {
     "age-decision-api": ">=2.0.0 <3.0.0"
   },
@@ -264,9 +264,9 @@ Generated view:
     "metadata_endpoint": "/version",
     "decision_values": ["allow", "deny"],
     "score_field": "cred_global_score",
-    "estimated_age_exposed": false,
-    "raw_age_confidence_exposed": false,
-    "raw_liveness_confidence_exposed": false,
+    "internal_estimate_exposed": false,
+    "raw_decision_signal_quality_exposed": false,
+    "raw_spoof_signal_quality_exposed": false,
     "legacy_cred_score_exposed": false
   }
 }
