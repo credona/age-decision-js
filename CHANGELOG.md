@@ -7,6 +7,9 @@ Global project direction is tracked in the central Age Decision repository.
 <h2>2.5.0</h2>
 
 <ul>
+  <li>Hardened responseFilter with strict public contract allowlist enforcement.</li>
+  <li>Added hostile payload tests ensuring removal of raw, downstream_response, internal_thresholds and hidden fields.</li>
+  <li>Ensured SDK never exposes estimated_age, confidence, or internal scoring artifacts.</li>
   <li>Aligned SDK public typing with the API v2.5 public contract.</li>
   <li>Kept responseFilter as the only unsafe payload casting boundary.</li>
   <li>Added stricter response filtering for public decisions, statuses, and score bounds.</li>

@@ -9,6 +9,9 @@ const CHANGELOG_PATH = "CHANGELOG.md";
 const MANAGED_VERSION = "2.5.0";
 
 const CHANGELOG_SECTION_ITEMS = [
+  "Hardened responseFilter with strict public contract allowlist enforcement.",
+  "Added hostile payload tests ensuring removal of raw, downstream_response, internal_thresholds and hidden fields.",
+  "Ensured SDK never exposes estimated_age, confidence, or internal scoring artifacts.",
   "Aligned SDK public typing with the API v2.5 public contract.",
   "Kept responseFilter as the only unsafe payload casting boundary.",
   "Added stricter response filtering for public decisions, statuses, and score bounds.",
