@@ -1,6 +1,6 @@
 {
   "name": "@credona/age-decision",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "JavaScript and TypeScript SDK for Age Decision API.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -37,7 +37,8 @@
     "check:local": "scripts/dev/check_local.sh",
     "check:docker": "scripts/ci/check_all_docker.sh",
     "fix:docker": "scripts/ci/fix_all_docker.sh",
-    "release:prepare": "scripts/ci/release_prepare.sh"
+    "release:prepare": "scripts/ci/release_prepare.sh",
+    "benchmark": "sh scripts/benchmark/run_sdk_benchmark.sh"
   },
   "keywords": [
     "age-verification",

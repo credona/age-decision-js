@@ -6,21 +6,16 @@ import {
 } from "./changelog-utils.mjs";
 
 const CHANGELOG_PATH = "CHANGELOG.md";
-const MANAGED_VERSION = "2.5.0";
+const MANAGED_VERSION = "2.6.0";
 
 const CHANGELOG_SECTION_ITEMS = [
-  "Hardened responseFilter with strict public contract allowlist enforcement.",
-  "Added hostile payload tests ensuring removal of raw, downstream_response, internal_thresholds and hidden fields.",
-  "Ensured SDK never exposes estimated_age, confidence, or internal scoring artifacts.",
-  "Aligned SDK public typing with the API v2.5 public contract.",
-  "Kept responseFilter as the only unsafe payload casting boundary.",
-  "Added stricter response filtering for public decisions, statuses, and score bounds.",
-  "Preserved SDK client behavior without adding business scoring or decision logic.",
-  "Kept unsupported input types forwarded deterministically to the API.",
+  "Added SDK benchmark execution workflow for API end-to-end benchmark calls.",
+  "Added privacy-safe SDK benchmark report generation with aggregate latency and decision distribution.",
+  "Added SDK benchmark privacy tests preventing raw payload, base64, downstream response, threshold, confidence, and estimated age exposure.",
+  "Kept SDK benchmark logic limited to API calls and report generation without duplicating API business logic.",
+  "Updated package, project, compatibility, and lockfile metadata to 2.6.0.",
   "Updated generated SDK usage, types, compatibility, and README examples.",
-  "Updated package, project, compatibility, and lockfile metadata to 2.5.0.",
-  "Preserved privacy-first stripping of raw, confidence, estimated age, and downstream fields.",
-  "Validated the release through Docker build and unit tests.",
+  "Validated the release through unit tests and Node syntax checks.",
 ];
 
 function main() {
