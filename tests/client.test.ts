@@ -228,6 +228,7 @@ describe("AgeDecisionClient", () => {
     const body = JSON.parse(init.body as string);
 
     expect(body).toEqual({
+      input_type: "image",
       image_base64: "abc",
       age_threshold: 18,
       majority_country: "FR",
@@ -637,5 +638,102 @@ describe("mapStandardizedApiError (v2.3.0 standardized API ErrorResponse)", () =
 
     expect(mapStandardizedApiError(401, raw)).toBeNull();
     expect(mapStandardizedApiError(503, raw)).toBeNull();
+  });
+});
+
+describe("AgeDecisionClient input_type", () => {
+  it("should send image input_type by default", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        request_id: "r",
+        correlation_id: "r",
+        decision: "allow",
+        cred_global_score: 0.9,
+        decision_check: {
+          status: "passed",
+          decision: "allow",
+          threshold: {
+            type: "minimum_age",
+            value: 18,
+            source: "default",
+            majority_country: null,
+          },
+          cred_decision_score: 0.9,
+        },
+        spoof_check: {
+          status: "passed",
+          decision: "allow",
+          is_real: true,
+          spoof_detected: false,
+          cred_antispoof_score: 0.9,
+        },
+        privacy: {
+          image_stored: false,
+          biometric_template_stored: false,
+          raw_image_logged: false,
+          downstream_raw_response_exposed: false,
+          retention_policy: "not_stored_by_api_gateway",
+        },
+        zk_proof: {
+          zk_ready: true,
+          proof_type: "interactive_zero_knowledge_ready",
+          proof_status: "not_generated",
+          statement: "safe public statement",
+        },
+        reason: null,
+      }),
+    });
+
+    vi.stubGlobal("fetch", fetchMock);
+
+    const client = new AgeDecisionClient({
+      baseUrl: MOCK_API_BASE_URL,
+    });
+
+    await client.verify({
+      imageBase64: "abc",
+    });
+
+    const [, init] = fetchMock.mock.calls[0];
+    const body = JSON.parse(init.body as string);
+
+    expect(body.input_type).toBe("image");
+  });
+
+  it("should forward unsupported input_type to the API and map deterministic error", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 400,
+        text: async () =>
+          JSON.stringify({
+            request_id: "req-123",
+            correlation_id: "corr-456",
+            error: {
+              code: "UNSUPPORTED_INPUT_TYPE",
+              message: "Unsupported input type: video",
+            },
+          }),
+      }),
+    );
+
+    const client = new AgeDecisionClient({
+      baseUrl: MOCK_API_BASE_URL,
+    });
+
+    await expect(
+      client.verify({
+        inputType: "video",
+        imageBase64: "abc",
+      }),
+    ).rejects.toMatchObject({
+      name: "StandardizedApiError",
+      status: 400,
+      code: "UNSUPPORTED_INPUT_TYPE",
+      requestId: "req-123",
+      correlationId: "corr-456",
+    });
   });
 });

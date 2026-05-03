@@ -7,7 +7,10 @@ export interface ClientOptions {
   retryDelay?: number;
 }
 
+export type InputType = "image" | "image_sequence" | "video";
+
 export interface VerifyRequest {
+  inputType?: InputType;
   imageBase64: string;
   ageThreshold?: number;
   majorityCountry?: string;

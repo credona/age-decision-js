@@ -51,6 +51,7 @@ export class AgeDecisionClient {
     const correlationId = input.correlationId ?? requestId;
 
     const body = {
+      input_type: input.inputType ?? "image",
       image_base64: input.imageBase64,
       age_threshold: input.ageThreshold,
       majority_country: input.majorityCountry,

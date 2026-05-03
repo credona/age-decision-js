@@ -11,6 +11,9 @@ const MANAGED_VERSION = "2.4.0";
 const CHANGELOG_SECTION_ITEMS = [
   "Introduced SDK application/domain structure for v2.4.0 alignment.",
   "Added public verify response filtering before returning SDK responses.",
+  "Added strict SDK response filtering to strip unsafe downstream and internal fields.",
+  "Added public inputType support aligned with v3 multi-input preparation.",
+  "Added deterministic standardized error mapping for unsupported input types.",
   "Renamed age and liveness response types to decision check and spoof check.",
   "Centralized public decision and check status constants using const-object unions.",
   "Updated SDK documentation to use neutral public terminology.",

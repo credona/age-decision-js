@@ -9,6 +9,9 @@ Global project direction is tracked in the central Age Decision repository.
 <ul>
   <li>Introduced SDK application/domain structure for v2.4.0 alignment.</li>
   <li>Added public verify response filtering before returning SDK responses.</li>
+  <li>Added strict SDK response filtering to strip unsafe downstream and internal fields.</li>
+  <li>Added public inputType support aligned with v3 multi-input preparation.</li>
+  <li>Added deterministic standardized error mapping for unsupported input types.</li>
   <li>Renamed age and liveness response types to decision check and spoof check.</li>
   <li>Centralized public decision and check status constants using const-object unions.</li>
   <li>Updated SDK documentation to use neutral public terminology.</li>
