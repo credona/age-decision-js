@@ -207,6 +207,7 @@ project.json
 Generated view:
 
 <!-- BEGIN:PROJECT_METADATA -->
+
 ```json
 {
   "service_name": "age-decision-js",
@@ -232,6 +233,7 @@ Generated view:
   }
 }
 ```
+
 <!-- END:PROJECT_METADATA -->
 
 <hr>
@@ -247,6 +249,7 @@ compatibility.json
 Generated view:
 
 <!-- BEGIN:COMPATIBILITY_METADATA -->
+
 ```json
 {
   "service": "age-decision-js",
@@ -259,10 +262,7 @@ Generated view:
   "public_contract": {
     "client": "AgeDecisionClient",
     "metadata_endpoint": "/version",
-    "decision_values": [
-      "allow",
-      "deny"
-    ],
+    "decision_values": ["allow", "deny"],
     "score_field": "cred_global_score",
     "internal_estimate_exposed": false,
     "raw_decision_signal_quality_exposed": false,
@@ -271,6 +271,7 @@ Generated view:
   }
 }
 ```
+
 <!-- END:COMPATIBILITY_METADATA -->
 
 <hr>

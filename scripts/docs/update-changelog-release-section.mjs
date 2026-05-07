@@ -17,7 +17,6 @@ const CHANGELOG_SECTION_ITEMS = [
   "Validated the release through unit tests and build checks.",
 ];
 
-
 function main() {
   const block = buildChangelogBlock(MANAGED_VERSION, CHANGELOG_SECTION_ITEMS);
   let text = readText(CHANGELOG_PATH);
