@@ -212,7 +212,6 @@ interface ZkProofMetadataResponse {
 <h2>Project metadata</h2>
 
 <!-- BEGIN:PROJECT_METADATA -->
-
 ```json
 {
   "service_name": "age-decision-js",
@@ -238,7 +237,6 @@ interface ZkProofMetadataResponse {
   }
 }
 ```
-
 <!-- END:PROJECT_METADATA -->
 
 <hr>
@@ -246,7 +244,6 @@ interface ZkProofMetadataResponse {
 <h2>Compatibility metadata</h2>
 
 <!-- BEGIN:COMPATIBILITY_METADATA -->
-
 ```json
 {
   "service": "age-decision-js",
@@ -259,7 +256,10 @@ interface ZkProofMetadataResponse {
   "public_contract": {
     "client": "AgeDecisionClient",
     "metadata_endpoint": "/version",
-    "decision_values": ["allow", "deny"],
+    "decision_values": [
+      "allow",
+      "deny"
+    ],
     "score_field": "cred_global_score",
     "internal_estimate_exposed": false,
     "raw_decision_signal_quality_exposed": false,
@@ -268,7 +268,6 @@ interface ZkProofMetadataResponse {
   }
 }
 ```
-
 <!-- END:COMPATIBILITY_METADATA -->
 
 <hr>

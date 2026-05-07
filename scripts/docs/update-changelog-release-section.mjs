@@ -9,14 +9,14 @@ const CHANGELOG_PATH = "CHANGELOG.md";
 const MANAGED_VERSION = "2.6.0";
 
 const CHANGELOG_SECTION_ITEMS = [
-  "Added SDK benchmark execution workflow for API end-to-end benchmark calls.",
-  "Added privacy-safe SDK benchmark report generation with aggregate latency and decision distribution.",
-  "Added SDK benchmark privacy tests preventing raw payload, base64, downstream response, threshold, confidence, and estimated age exposure.",
-  "Kept SDK benchmark logic limited to API calls and report generation without duplicating API business logic.",
   "Updated package, project, compatibility, and lockfile metadata to 2.6.0.",
+  "Aligned SDK metadata and documentation with the centralized age-decision-benchmark laboratory.",
+  "Removed legacy local benchmark orchestration from the SDK repository.",
+  "Kept SDK focused on public API contract mirroring and response filtering.",
   "Updated generated SDK usage, types, compatibility, and README examples.",
-  "Validated the release through unit tests and Node syntax checks.",
+  "Validated the release through unit tests and build checks.",
 ];
+
 
 function main() {
   const block = buildChangelogBlock(MANAGED_VERSION, CHANGELOG_SECTION_ITEMS);

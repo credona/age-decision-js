@@ -7,13 +7,12 @@ Global project direction is tracked in the central Age Decision repository.
 <h2>2.6.0</h2>
 
 <ul>
-  <li>Added SDK benchmark execution workflow for API end-to-end benchmark calls.</li>
-  <li>Added privacy-safe SDK benchmark report generation with aggregate latency and decision distribution.</li>
-  <li>Added SDK benchmark privacy tests preventing raw payload, base64, downstream response, threshold, confidence, and estimated age exposure.</li>
-  <li>Kept SDK benchmark logic limited to API calls and report generation without duplicating API business logic.</li>
   <li>Updated package, project, compatibility, and lockfile metadata to 2.6.0.</li>
+  <li>Aligned SDK metadata and documentation with the centralized age-decision-benchmark laboratory.</li>
+  <li>Removed legacy local benchmark orchestration from the SDK repository.</li>
+  <li>Kept SDK focused on public API contract mirroring and response filtering.</li>
   <li>Updated generated SDK usage, types, compatibility, and README examples.</li>
-  <li>Validated the release through unit tests and Node syntax checks.</li>
+  <li>Validated the release through unit tests and build checks.</li>
 </ul>
 
 <hr>
