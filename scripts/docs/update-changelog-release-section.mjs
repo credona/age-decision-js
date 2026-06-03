@@ -13,8 +13,12 @@ const CHANGELOG_SECTION_ITEMS = [
   "Aligned SDK metadata and documentation with the centralized age-decision-benchmark laboratory.",
   "Removed legacy local benchmark orchestration from the SDK repository.",
   "Kept SDK focused on public API contract mirroring and response filtering.",
+  "Added SDK calibration isolation policy tests to ensure the SDK never loads, verifies, applies, or exposes private calibration policies.",
+  "Added hostile payload contract tests to ensure private calibration fields are stripped by the SDK response filter.",
+  "Ensured private calibration internals, signatures, hashes, weights, margins, and calibration parameters are not part of the SDK source contract.",
+  "Separated unit/privacy/contract tests from integration tests in the default test command.",
   "Updated generated SDK usage, types, compatibility, and README examples.",
-  "Validated the release through unit tests and build checks.",
+  "Validated the release through Docker CI-equivalent unit, privacy, contract, build, formatting, metadata, and documentation checks.",
 ];
 
 function main() {
