@@ -4,6 +4,23 @@ This changelog tracks changes specific to Age Decision JS SDK.
 
 Global project direction is tracked in the central Age Decision repository.
 
+<h2>2.6.0</h2>
+
+<ul>
+  <li>Updated package, project, compatibility, and lockfile metadata to 2.6.0.</li>
+  <li>Aligned SDK metadata and documentation with the centralized age-decision-benchmark laboratory.</li>
+  <li>Removed legacy local benchmark orchestration from the SDK repository.</li>
+  <li>Kept SDK focused on public API contract mirroring and response filtering.</li>
+  <li>Added SDK calibration isolation policy tests to ensure the SDK never loads, verifies, applies, or exposes private calibration policies.</li>
+  <li>Added hostile payload contract tests to ensure private calibration fields are stripped by the SDK response filter.</li>
+  <li>Ensured private calibration internals, signatures, hashes, weights, margins, and calibration parameters are not part of the SDK source contract.</li>
+  <li>Separated unit/privacy/contract tests from integration tests in the default test command.</li>
+  <li>Updated generated SDK usage, types, compatibility, and README examples.</li>
+  <li>Validated the release through Docker CI-equivalent unit, privacy, contract, build, formatting, metadata, and documentation checks.</li>
+</ul>
+
+<hr>
+
 <h2>2.5.0</h2>
 
 <ul>

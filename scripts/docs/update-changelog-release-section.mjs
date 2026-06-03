@@ -6,21 +6,19 @@ import {
 } from "./changelog-utils.mjs";
 
 const CHANGELOG_PATH = "CHANGELOG.md";
-const MANAGED_VERSION = "2.5.0";
+const MANAGED_VERSION = "2.6.0";
 
 const CHANGELOG_SECTION_ITEMS = [
-  "Hardened responseFilter with strict public contract allowlist enforcement.",
-  "Added hostile payload tests ensuring removal of raw, downstream_response, internal_thresholds and hidden fields.",
-  "Ensured SDK never exposes estimated_age, confidence, or internal scoring artifacts.",
-  "Aligned SDK public typing with the API v2.5 public contract.",
-  "Kept responseFilter as the only unsafe payload casting boundary.",
-  "Added stricter response filtering for public decisions, statuses, and score bounds.",
-  "Preserved SDK client behavior without adding business scoring or decision logic.",
-  "Kept unsupported input types forwarded deterministically to the API.",
+  "Updated package, project, compatibility, and lockfile metadata to 2.6.0.",
+  "Aligned SDK metadata and documentation with the centralized age-decision-benchmark laboratory.",
+  "Removed legacy local benchmark orchestration from the SDK repository.",
+  "Kept SDK focused on public API contract mirroring and response filtering.",
+  "Added SDK calibration isolation policy tests to ensure the SDK never loads, verifies, applies, or exposes private calibration policies.",
+  "Added hostile payload contract tests to ensure private calibration fields are stripped by the SDK response filter.",
+  "Ensured private calibration internals, signatures, hashes, weights, margins, and calibration parameters are not part of the SDK source contract.",
+  "Separated unit/privacy/contract tests from integration tests in the default test command.",
   "Updated generated SDK usage, types, compatibility, and README examples.",
-  "Updated package, project, compatibility, and lockfile metadata to 2.5.0.",
-  "Preserved privacy-first stripping of raw, confidence, estimated age, and downstream fields.",
-  "Validated the release through Docker build and unit tests.",
+  "Validated the release through Docker CI-equivalent unit, privacy, contract, build, formatting, metadata, and documentation checks.",
 ];
 
 function main() {
